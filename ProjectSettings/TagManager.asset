@@ -17,8 +17,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - MovingObject
+  - Falling
   - 
   - 
   - 
@@ -48,11 +48,11 @@ TagManager:
   - name: BackGround
     uniqueID: 2853413927
     locked: 0
-  - name: Player
-    uniqueID: 2465502063
-    locked: 0
   - name: MiddleGround
     uniqueID: 945207853
+    locked: 0
+  - name: Player
+    uniqueID: 2465502063
     locked: 0
   - name: InteractableObjects
     uniqueID: 2380832185

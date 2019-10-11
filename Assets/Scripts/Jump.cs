@@ -20,6 +20,7 @@ public class Jump : MonoBehaviour
     private bool doubleJumpActive = false;
     private int jumped;
     private bool jumpPossible = false;
+    private float swipeNeededToJump = 0.2f; //20% avskärmen
     private float jumpDir;
     private bool facingRight = true;
     Vector3 localScale;  //vilket håll dino är
@@ -30,6 +31,13 @@ public class Jump : MonoBehaviour
     [SerializeField]
     private float moveSpeed = 6f;   //force?
 
+    float origGravity;
+
+    //TODO remove
+    [SerializeField]
+    bool AIR = false;
+
+
 
 
 
@@ -39,6 +47,7 @@ public class Jump : MonoBehaviour
         localScale = transform.localScale;
         rb = GetComponent<Rigidbody2D>();
         jumped = 0;
+        origGravity = rb.gravityScale;
     }
 
     // Update is called once per frame
@@ -50,11 +59,12 @@ public class Jump : MonoBehaviour
        // Debug.Log(dirX);
     }
 
-
-    private void FixedUpdate()
+    //physics update, things using rigidbody should go here
+    private void FixedUpdate()  
     {
         TryToWalk();
         TryToJump();
+        AIR = onGroundCheck;
     }
 
     private void LateUpdate()
@@ -87,7 +97,7 @@ public class Jump : MonoBehaviour
             startTouchPos = Input.GetTouch(0).position;
             jumpDir = CrossPlatformInputManager.VirtualAxisReference("Horizontal").GetValue;
 
-            Debug.Log("JUmp try started with jump dir " + jumpDir);
+           // Debug.Log("JUmp try started with jump dir " + jumpDir);
 
         }
 
@@ -95,7 +105,7 @@ public class Jump : MonoBehaviour
         {
             endTouchPos = Input.GetTouch(0).position;
 
-            Debug.Log("JUmp try ended");
+           // Debug.Log("JUmp try ended");
 
 
             //TODO dubbelhopp? rb.velocity ändras för tillåtelse, sen insta ändras om efter hoppet till 0
@@ -107,7 +117,7 @@ public class Jump : MonoBehaviour
             diff = new Vector2(diff.x / Screen.width, diff.y / Screen.height);  //kolla större än 20% 0.1f
 
            // Debug.Log("% diff är " + diff.magnitude);
-            if (endTouchPos.y > startTouchPos.y && (Math.Abs(rb.velocity.y) <= 0 || doubleJumpActive )&& diff.magnitude > 0.2f)  // velocitynot already in air
+            if (endTouchPos.y > startTouchPos.y && ( onGroundCheck || doubleJumpActive ) && diff.magnitude > swipeNeededToJump)  // velocitynot already in air
             {
                 jumpPossible = true;
                // Debug.Log("JUmp pissoble");
@@ -125,77 +135,90 @@ public class Jump : MonoBehaviour
         movementDir = CrossPlatformInputManager.VirtualAxisReference("Horizontal").GetValue;
     }
 
+
+    //not falling
+    public bool onGroundCheck
+    {  
+        get
+        {
+            return Math.Abs(rb.velocity.y) <= 0;
+          
+        }
+    }
+
+
     private void TryToJump()
     {
         if (jumpPossible)
         {
-            Debug.Log("JUMP!! " + rb.tag);
-            Debug.Log("JUMP!! " + (jumpDir * jumpSpeed));
+            //Debug.Log("JUMP!! " + rb.tag);
+            //Debug.Log("JUMP!! " + (jumpDir * jumpSpeed));
 
-            Debug.Log("JUMPED = " + jumped);
-
-            //rb.AddForce(Vector2.up * jumpSpeed);  //, ForceMode2D.Impulse
-                                                  //rb.AddForce(new Vector2(0f, 8.0f), ForceMode2D.Impulse);  //x , y  movementspeed, jumpspeed
-                                                  //rb.AddForce(new Vector2((10f), jumpSpeed));
-                                                  //rb.AddForce(Vector2.right * (jumpDir * moveSpeed));
-
-            // rb.AddRelativeForce((jumpDir * jumpSpeed), 0.0f, jumpSpeed, ForceMode.Force);
-            //rb.AddRelativeForce(Vector2.left * jumpSpeed);
-
-            //speedbost
-            //rb.AddForce(transform.forward * jumpSpeed, ForceMode2D.Impulse);
-            //rb.AddForce(Vector2.right * jumpSpeed);
+            //Debug.Log("JUMPED = " + jumped);
 
 
-
-            //TODO titta rad 122, velocity
-             if (!doubleJumpActive || jumped > 1)
-             {
-                // jumpPossible = false;
+            if (onGroundCheck)
+            {
+               // Debug.Log("1a hoppet");
                 rb.AddForce(Vector2.up * jumpSpeed);
+                
+
+                if (doubleJumpActive)
+                {
+                    jumped++;
+                }
+            }
+
+            if (!onGroundCheck && jumped > 0)
+            {
+
+               //extra umph bcs it's hard to land 2 quickly in a row
+                rb.AddForce(Vector2.up * (jumpSpeed * 1.5f));
+
                 jumped = 0;
-                Debug.Log("Ända eller efter 2a hoppet");
             }
-            else if(doubleJumpActive && jumped > 0 ) //inte landat
-            {
-                if (Math.Abs(rb.velocity.y) > 0)
-                {
-                    rb.AddForce(Vector2.up * (jumpSpeed * 2));
-                    Debug.Log("2a hoppetDubbel speed");
-                }
-                else
-                {
-                    rb.AddForce(Vector2.up * jumpSpeed);
-                    Debug.Log("2a hoppet");
-                    jumped = 0;
-                }
-            }
-            else
-            {
-                Debug.Log("1a hoppet");
-                rb.AddForce(Vector2.up * jumpSpeed);
-            }
-
-             //todo sätt i de olika if satserna
-            jumped++;
 
             jumpPossible = false;
         }
     }
-
     private void TryToWalk()
     {
 
        // Debug.Log("Try to walk");
         rb.velocity = new Vector2(movementDir * moveSpeed, rb.velocity.y);
+
+        //walking on interactable objects
+        if (!onGroundCheck)
+        {
+           // gameObject.layer = 9;  //Falling
+        }
+
     }
 
 
+
+    //TODO sätta på moving Object istället? tag.Equals("PLayer")?
+    //collision.collider.transform.SetParent(transform);
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
+       
         if (collision.gameObject.tag.Equals("movingObject"))
         {
-            this.transform.parent = collision.transform;
+            Debug.Log("enter moving objectx TRY");
+
+            if (transform.position.y > collision.transform.position.y + 1)  // + 1
+            {
+                 this.transform.parent = collision.transform;
+                // gameObject.layer = 8;  //moving object
+                //jumpSpeed = collision.
+                //rb.isKinematic = true;
+               // rb.gravityScale = 0;
+                //this.transform.SetParent(collision.transform);
+                Debug.Log("enter moving object");
+            }
+
+
         }
     }
 
@@ -203,7 +226,11 @@ public class Jump : MonoBehaviour
     {
         if (collision.gameObject.tag.Equals("movingObject"))
         {
+
+            //rb.isKinematic = false;
+           // rb.gravityScale = origGravity;
             this.transform.parent = null;
+            Debug.Log("exit moving object");
         }
 
     }
@@ -233,3 +260,52 @@ public class Jump : MonoBehaviour
 
 //<a href="https://www.vecteezy.com/free-vector/green-grass">Green Grass Vectors by Vecteezy</a>
 //<a href = "https://www.vecteezy.com/free-vector/green-grass" > Green Grass Vectors by Vecteezy</a>
+
+
+
+
+
+
+
+////TODO titta rad 122, velocity
+// if (!doubleJumpActive || jumped > 1)
+// {
+//    // jumpPossible = false;
+//    rb.AddForce(Vector2.up * jumpSpeed);
+//    jumped = 0;
+//    Debug.Log("Ända eller efter 2a hoppet");
+//}
+//else if(doubleJumpActive && jumped > 0 ) //inte landat
+//{
+//    if (!onGroundCheck)  //Math.Abs(rb.velocity.y) > 0
+//    {
+//        rb.AddForce(Vector2.up * (jumpSpeed * 2));
+//        Debug.Log("2a hoppetDubbel speed");
+//    }
+//    else
+//    {
+//        rb.AddForce(Vector2.up * jumpSpeed);
+//        Debug.Log("2a hoppet");
+//        jumped = 0;
+//    }
+//}
+//else
+//{
+//    Debug.Log("1a hoppet");
+//    rb.AddForce(Vector2.up * jumpSpeed);
+//}
+
+// //todo sätt i de olika if satserna
+//jumped++;
+
+//rb.AddForce(Vector2.up * jumpSpeed);  //, ForceMode2D.Impulse
+//rb.AddForce(new Vector2(0f, 8.0f), ForceMode2D.Impulse);  //x , y  movementspeed, jumpspeed
+//rb.AddForce(new Vector2((10f), jumpSpeed));
+//rb.AddForce(Vector2.right * (jumpDir * moveSpeed));
+
+// rb.AddRelativeForce((jumpDir * jumpSpeed), 0.0f, jumpSpeed, ForceMode.Force);
+//rb.AddRelativeForce(Vector2.left * jumpSpeed);
+
+//speedbost
+//rb.AddForce(transform.forward * jumpSpeed, ForceMode2D.Impulse);
+//rb.AddForce(Vector2.right * jumpSpeed);
