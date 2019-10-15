@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovingObject : MonoBehaviour
+public class MovingObjectController : MonoBehaviour
 {
     [SerializeField]
     private float dirX, moveSpeed = 2f;

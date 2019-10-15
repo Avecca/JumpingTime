@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FluidBackground : MonoBehaviour
+public class FluidBackgroundManager : MonoBehaviour
 {
 
     [SerializeField]

@@ -8,6 +8,8 @@ TagManager:
   - btnRight
   - btnLeft
   - movingObject
+  - btnRestart
+  - btnNext
   layers:
   - Default
   - TransparentFX

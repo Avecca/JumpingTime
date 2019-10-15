@@ -4,8 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;  //for buttons
 
-public class Jump : MonoBehaviour
+public class MovementController : MonoBehaviour
 {
+
+
+
+//TODO SINGLETON? används i game manager
+
 
 
     private Vector2 startTouchPos;
@@ -37,6 +42,8 @@ public class Jump : MonoBehaviour
     [SerializeField]
     bool AIR = false;
 
+    private bool stopMovement = false;
+
 
 
 
@@ -53,23 +60,39 @@ public class Jump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-         WalkCheck();
-         JumpCheck();
 
-       // Debug.Log(dirX);
+        //TODO, unless game over
+        if (!stopMovement)
+        {
+            WalkCheck();
+            JumpCheck();
+        }
+
+        // Debug.Log(dirX);
     }
 
     //physics update, things using rigidbody should go here
     private void FixedUpdate()  
     {
-        TryToWalk();
-        TryToJump();
-        AIR = onGroundCheck;
+
+        //TODOunless game over
+        if (!stopMovement)
+        {
+            TryToWalk();
+            TryToJump();
+            AIR = onGroundCheck;
+
+        }
+
     }
 
     private void LateUpdate()
     {
-        CheckLookingDir();
+        if (!stopMovement)
+        {
+            CheckLookingDir();
+        }
+        
     }
 
     private void CheckLookingDir()
@@ -200,6 +223,8 @@ public class Jump : MonoBehaviour
     //TODO sätta på moving Object istället? tag.Equals("PLayer")?
     //collision.collider.transform.SetParent(transform);
 
+
+        //IF Player hits a 2DCollision object
     private void OnCollisionEnter2D(Collision2D collision)
     {
        
@@ -249,6 +274,12 @@ public class Jump : MonoBehaviour
     {
         get { return doubleJumpActive; }
         set { doubleJumpActive = value; }
+    }
+
+
+    public void ChangeStopMovement(bool stop)
+    {
+        this.stopMovement = stop;
     }
 
 
