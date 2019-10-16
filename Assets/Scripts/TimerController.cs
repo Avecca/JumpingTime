@@ -10,6 +10,8 @@ public class TimerController : MonoBehaviour
 
     [SerializeField]
     private float timeLeft = 30f;
+    private bool gameRunning = false;
+
 
     public float TimeLeft
     {
@@ -24,7 +26,7 @@ public class TimerController : MonoBehaviour
         }
     }
 
-    private int interval = 3;
+    //private int interval = 3;
 
 
     private void Start()
@@ -32,26 +34,36 @@ public class TimerController : MonoBehaviour
         //text = GetComponentInChildren<Text>();
         text = GetComponent<TextMeshProUGUI>();
 
-        
 
-        Debug.Log(text);
+        Time.timeScale = 1;
+       // Debug.Log(text);
+
+
     }
 
     private void Update()
     {
-       // if (Time.frameCount % interval == 0)
-       // {
+        // if (Time.frameCount % interval == 0)
+        // {
 
-           // Debug.Log("Update +  " + text);
+        // Debug.Log("Update +  " + text);
 
-            timeLeft -= Time.deltaTime;
-            if (timeLeft < 0)
-            {
-                timeLeft = 0;
-            }
-            
-            text.text = Mathf.Round(timeLeft).ToString();
+        if (gameRunning)
+        {
+            updateTimer();
+        }
         //}
+    }
+
+    private void updateTimer()
+    {
+        timeLeft -= Time.deltaTime;
+        if (timeLeft < 0)
+        {
+            timeLeft = 0;
+        }
+
+        text.text = Mathf.Round(timeLeft).ToString();
     }
 
 
@@ -63,6 +75,18 @@ public class TimerController : MonoBehaviour
     public void SubtractTime(float time)
     {
         TimeLeft = TimeLeft - time;
+    }
+
+    public void StartGame()
+    {
+        gameRunning = true;
+
+        //TODO Ienumerator instead of updateTimer?
+    }
+
+    public void PausTime( bool pausTimer)
+    {
+        gameRunning = pausTimer;
     }
 
 }

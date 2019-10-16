@@ -42,7 +42,7 @@ public class MovementController : MonoBehaviour
     [SerializeField]
     bool AIR = false;
 
-    private bool stopMovement = false;
+    private bool stopAllMovement = false;
 
 
 
@@ -62,7 +62,7 @@ public class MovementController : MonoBehaviour
     {
 
         //TODO, unless game over
-        if (!stopMovement)
+        if (!stopAllMovement)
         {
             WalkCheck();
             JumpCheck();
@@ -76,7 +76,7 @@ public class MovementController : MonoBehaviour
     {
 
         //TODOunless game over
-        if (!stopMovement)
+        if (!stopAllMovement)
         {
             TryToWalk();
             TryToJump();
@@ -88,7 +88,7 @@ public class MovementController : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!stopMovement)
+        if (!stopAllMovement)
         {
             CheckLookingDir();
         }
@@ -277,9 +277,9 @@ public class MovementController : MonoBehaviour
     }
 
 
-    public void ChangeStopMovement(bool stop)
+    public void StopAllMovement(bool stop)
     {
-        this.stopMovement = stop;
+        this.stopAllMovement = stop;
     }
 
 

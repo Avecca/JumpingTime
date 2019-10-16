@@ -10,6 +10,7 @@ TagManager:
   - movingObject
   - btnRestart
   - btnNext
+  - countdownTxt
   layers:
   - Default
   - TransparentFX

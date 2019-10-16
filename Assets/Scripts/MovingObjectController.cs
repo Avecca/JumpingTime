@@ -17,14 +17,14 @@ public class MovingObjectController : MonoBehaviour
     private Vector3 nextPos;
 
     [SerializeField]
-    private Transform childTransform;
+    private Transform startTransform;
     [SerializeField]
     private Transform transform2;
 
 
     private void Start()
     {
-        pos1 = childTransform.localPosition;
+        pos1 = startTransform.localPosition;
         pos2 = transform2.localPosition;
         nextPos = pos2;   
     }
@@ -40,9 +40,9 @@ public class MovingObjectController : MonoBehaviour
     {
 
 
-        childTransform.localPosition = Vector3.MoveTowards(childTransform.localPosition, nextPos, moveSpeed * Time.deltaTime);
+        startTransform.localPosition = Vector3.MoveTowards(startTransform.localPosition, nextPos, moveSpeed * Time.deltaTime);
 
-        if (Vector3.Distance(childTransform.localPosition, nextPos) <= 0.1)
+        if (Vector3.Distance(startTransform.localPosition, nextPos) <= 0.1)
         {
             ChangeNextPosition();
         }

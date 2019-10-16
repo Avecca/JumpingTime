@@ -7,16 +7,20 @@ using System;
 
 public class GameManager : MonoBehaviour
 {
-    //Under the same "item" GameManager, init i start då 
+    //Under the same "item" GameManager, init i start då
+    CountdownController countdownController;
 
     //seperate entitys, connect through inspector
-    public GameObject hurry, gameOver;
+    public GameObject hurry, gameOver,countdown;  //todo remove countdown
 
     public TimerController timerController;
-    public MovementController movementController;
+    //todo to stop movement stopMovement in StopMovement(true);
+    public MovementController movementController;  
+    //public CountdownController countdownController;
 
     private int showHurryMax = 8;
     private int showHurryMin = 5;
+   // private int startCountDown = 5; in timercontroller
 
 
     private string currentSceneName;
@@ -29,17 +33,25 @@ public class GameManager : MonoBehaviour
     {
         //TODO sätt olika timers per bana
         currentSceneName = SceneManager.GetActiveScene().name;
+        countdownController = GetComponent<CountdownController>();
+        StartSequence();
     }
 
+    private void StartSequence()
+    {
+
+        movementController.StopAllMovement(true);
+        countdownController.StartCountDown();
+    }
 
     private void Update()
     {
-        ControlTimer();
+        ControlGameTimer();
     }
 
 
 
-    private void ControlTimer()
+    private void ControlGameTimer()
     {
         if (timerController.TimeLeft <= showHurryMax && timerController.TimeLeft >= showHurryMin)
         {
@@ -63,6 +75,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+    public void StartGameTimer()
+    {
+        Debug.Log("Trying to start game timer");
+        movementController.StopAllMovement(false);
+        timerController.StartGame();
+
+    }
 
     public void RestartScene()
     {
