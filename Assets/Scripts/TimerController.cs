@@ -9,7 +9,7 @@ public class TimerController : MonoBehaviour
     TextMeshProUGUI text;
 
     [SerializeField]
-    private float timeLeft = 30f;
+    private float timeLeft = 90f;
     private bool gameRunning = false;
 
 
