@@ -6,7 +6,7 @@ using UnityEngine;
 public class MovingObjectController : MonoBehaviour
 {
     [SerializeField]
-    private float dirX, moveSpeed = 2f;
+    private float dirX, moveSpeed = 3f;
     //[SerializeField]
    // private float stopPoint = 2f;
    // private bool moveRight = true;
@@ -19,13 +19,13 @@ public class MovingObjectController : MonoBehaviour
     [SerializeField]
     private Transform startTransform;
     [SerializeField]
-    private Transform transform2;
+    private Transform endTransform;
 
 
     private void Start()
     {
-        pos1 = startTransform.localPosition;
-        pos2 = transform2.localPosition;
+        pos1 = startTransform.localPosition;  //relativt till parent, statisk i världen
+        pos2 = endTransform.localPosition;
         nextPos = pos2;   
     }
 

@@ -78,7 +78,7 @@ MonoBehaviour:
   dirX: 0
   moveSpeed: 3
   startTransform: {fileID: 1433296001075292594}
-  transform2: {fileID: 1433296000111172885}
+  endTransform: {fileID: 1433296000111172885}
 --- !u!1 &1433296000907037656
 GameObject:
   m_ObjectHideFlags: 0

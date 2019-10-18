@@ -6,7 +6,7 @@ using UnityEngine;
 public class ButtonInput : MonoBehaviour
 {
 
-
+    //TODO används inte
     public GameManager gameManager;
 
     // Update is called once per frame

@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 {
     //Under the same "item" GameManager, init i start då
     CountdownController countdownController;
+    PowerUpManager powerUpManager;
 
     //seperate entitys, connect through inspector
     public GameObject hurry, gameOver,countdown;  //todo remove countdown
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour
         //TODO sätt olika timers per bana
         currentSceneName = SceneManager.GetActiveScene().name;
         countdownController = GetComponent<CountdownController>();
+        powerUpManager = GetComponent<PowerUpManager>();
         StartSequence();
     }
 
@@ -67,6 +69,9 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 0;
             gameOver.gameObject.SetActive(true);
+
+            //stop spawning powerups
+            powerUpManager.AllowSpawns(false);
             //TODO restart o continue button activa beroende på poäng
 
             //Stop char from moving
@@ -81,9 +86,13 @@ public class GameManager : MonoBehaviour
         Debug.Log("Trying to start game timer");
         movementController.StopAllMovement(false);
         timerController.StartGame();
+        powerUpManager.AllowSpawns(true);
+
 
     }
 
+
+    //TODO
     public void RestartScene()
     {
         Debug.Log("RESTART SCENE");
@@ -96,5 +105,15 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("STartNextGame");
         //SceneManager.LoadScene("SCENENENENENEN");
+    }
+
+    public void ShowMenu()
+    {
+        Debug.Log("Show menu!");
+
+        //TODO
+        //QUIT
+        //STARTFROM GAmeMenu
+        //No sound
     }
 }

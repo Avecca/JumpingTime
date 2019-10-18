@@ -25,7 +25,7 @@ public class MovementController : MonoBehaviour
     private bool doubleJumpActive = false;
     private int jumped;
     private bool jumpPossible = false;
-    private float swipeNeededToJump = 0.2f; //20% avskärmen
+    private float swipeNeededToJump = 0.15f; //20% avskärmen
     private float jumpDir;
     private bool facingRight = true;
     Vector3 localScale;  //vilket håll dino är
