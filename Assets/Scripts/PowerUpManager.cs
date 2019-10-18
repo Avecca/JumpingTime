@@ -16,8 +16,13 @@ public class PowerUpManager : MonoBehaviour
 
    // public PowerController powerController;   DENNA SIST
 
-    [SerializeField]
+    //[SerializeField]
     private GameObject powerUp;
+
+    [SerializeField]
+    private List<GameObject> powers = new List<GameObject>();
+    int ran;
+
 
     [SerializeField]
     private float minSpawnTimer = 5.0f, maxSpawnTimer = 12.0f;
@@ -28,6 +33,7 @@ public class PowerUpManager : MonoBehaviour
     private bool SpawnsAllowed = false;
     System.Random random;
 
+
     
     // Start is called before the first frame update
     void Start()
@@ -36,7 +42,7 @@ public class PowerUpManager : MonoBehaviour
         // minSpawnTimer = 5.0f;
         // maxSpawnTimer = 12.0f;
 
-        if (powerUp == null)
+        if (powers == null)
         {
             return;
         }
@@ -77,16 +83,21 @@ public class PowerUpManager : MonoBehaviour
         //    Debug.Log("Tring to spawn Left!");
         //    leftPowerControlPanel.SpawnPower();
         //}
+        ran = random.Next(0, powers.Count);
+        powerUp = powers[ran];
 
         Debug.Log("Tring to spawn in manager!");
         // powerController.SpawnPower();
 
-        GameObject power = Instantiate(powerUp);  //TODO RANDOM POWERUP
-
+        GameObject power = Instantiate(powerUp);  //TODO RANDOM POWERUP GameObject.FindGameObjectWithTag("BoosterPanels").transform
+        power.SetActive(true);
         //all the powers should be able to acess PowerUpManager, for updates and death
         PowerController pc = power.GetComponentInChildren<PowerController>();
         //PowerController pc = power.GetComponent<PowerController>();
         pc.powerUpManager = this;
+
+        //give it a parent in the UI, this case the panels, stops the shaking...... power.transform
+        pc.transform.parent = GameObject.FindGameObjectWithTag("BoosterPanels").transform;
 
 
 
@@ -116,7 +127,7 @@ public class PowerUpManager : MonoBehaviour
     public void DestroyPowerup(GameObject power)
     {
         Debug.Log("Destroy POwer");
-       // Destroy(power);
+        Destroy(power);
     }
 
     //collider.gameObject.SetActive(false);

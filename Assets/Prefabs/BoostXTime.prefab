@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1257577162820941884}
   - component: {fileID: 1257577162820941887}
   - component: {fileID: 1257577162820941885}
+  - component: {fileID: 1502153874666538228}
   m_Layer: 5
   m_Name: XTime
   m_TagString: xTime5
@@ -99,6 +100,32 @@ MonoBehaviour:
   leftBtn: {fileID: 0}
   rightBtn: {fileID: 0}
   powerUpManager: {fileID: 0}
+--- !u!61 &1502153874666538228
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257577162820941886}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.09, y: 2.78}
+    newSize: {x: 3.09, y: 2.78}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3.09, y: 2.78}
+  m_EdgeRadius: 0
 --- !u!1 &1257577163157547210
 GameObject:
   m_ObjectHideFlags: 0

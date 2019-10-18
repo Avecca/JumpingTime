@@ -12,6 +12,7 @@ TagManager:
   - btnNext
   - countdownTxt
   - xTime5
+  - BoosterPanels
   layers:
   - Default
   - TransparentFX

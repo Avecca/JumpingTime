@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class PowerController : MonoBehaviour
+public class PowerController : MonoBehaviour, IPointerDownHandler
 {
 
 
@@ -16,11 +17,14 @@ public class PowerController : MonoBehaviour
     private float speed = 10f;
 
     //[SerializeField]
-   // private Transform powerPos;
+    // private Transform powerPos;
 
-    private int randomPower;
+    //private int randomPower;
 
-    [SerializeField]
+    private int spawnPoint;
+    private System.Random random;
+
+    [SerializeField]  //TODO behöver inte Btn pos
     private Transform leftSpawnPos, rightSpawnPos, leftBtn, rightBtn;
 
 
@@ -58,9 +62,20 @@ public class PowerController : MonoBehaviour
 
     private void StartPower()
     {
-
+        random = new System.Random();
+        spawnPoint =  random.Next(0, 2);
         Debug.Log("Flyttar till hörn");
-        transform.position = leftSpawnPos.transform.position;
+
+        if (spawnPoint > 0)
+        {
+            transform.position = rightSpawnPos.transform.position;  //parent
+        }
+        else
+        {
+            transform.position = leftSpawnPos.transform.position;
+
+        }
+        
 
         //transform.Translate(Vector3.down * speed * Time.deltaTime, Space.Self);  //Self.World
     }
@@ -79,11 +94,35 @@ public class PowerController : MonoBehaviour
         //if (moving)
         //{
 
-            //if (position.y > leftSpawnPos.position.y)
-            //{
-                position = new Vector3(leftSpawnPos.position.x, transform.position.y - speed * Time.deltaTime, transform.position.z);
+        //if (position.y > leftSpawnPos.position.y)
+        //{
 
-                transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime * speed);
+        if (spawnPoint > 0)
+        {
+            position = new Vector3(rightSpawnPos.position.x, transform.position.y - speed * Time.deltaTime, transform.position.z);
+        }
+        else
+        {
+            position = new Vector3(leftSpawnPos.position.x, transform.position.y - speed * Time.deltaTime, transform.position.z);
+
+            //transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime * speed);
+        }
+
+        transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime * speed);
+
+        RectTransform rectT = leftBtn.GetComponent<RectTransform>();
+
+        Vector3[] corners = new Vector3[4];
+        rectT.GetWorldCorners(corners);
+
+        float height = corners[2].y - corners[0].y;
+        //float height = rectT.GetWorldCorners(); //rectT.rect.height / 2 ;
+       // float height2 = corners2[2].y - corners2[0].y;
+
+        Debug.Log(height + " HEIGHT * 2");
+
+        if (transform.position.y < leftBtn.position.y + (height * 2)) //leftBtn.position.y
+            DestroyPower();
 
         //    }
         //    else
@@ -134,10 +173,13 @@ public class PowerController : MonoBehaviour
 
 
     private void DestroyPower()
-    {
-        GameObject parent = transform.parent.gameObject;
-        powerUpManager.DestroyPowerup(parent);
+    {  //TODO inte förstöra parhent
+        //GameObject parent = transform.parent.gameObject;
+        powerUpManager.DestroyPowerup(gameObject);
     }
-    
 
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        Debug.Log("Pressed!!!!!!!");
+    }
 }

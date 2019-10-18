@@ -67,6 +67,8 @@ public class GameManager : MonoBehaviour
 
         if ( timerController.TimeLeft <= 0)
         {
+
+            //TODO, bara ske 1 gång
             Time.timeScale = 0;
             gameOver.gameObject.SetActive(true);
 
