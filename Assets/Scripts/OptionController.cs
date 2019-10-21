@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class OptionController : MonoBehaviour
 {
 
-    public GameObject levelOverMenu, optionMenu;
+    public GameObject levelMenu, optionMenu;
 
     //private string currentSceneName;
 
@@ -16,8 +16,8 @@ public class OptionController : MonoBehaviour
     public void StartNextScene()
     {
 
-        Debug.Log("STartNextLevel");
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        Debug.Log("STartNextLevel " + (SceneManager.GetActiveScene().buildIndex + 1));
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
 
@@ -36,7 +36,7 @@ public class OptionController : MonoBehaviour
 
         if (SceneManager.GetActiveScene().buildIndex > 0)
         {
-            levelOverMenu.SetActive(false);
+            levelMenu.SetActive(false);
         }
 
         //levelOverMenu.SetActive(false);
@@ -52,7 +52,7 @@ public class OptionController : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex > 0)
         {
-            levelOverMenu.SetActive(true);
+            levelMenu.SetActive(true);
         }
 
         optionMenu.SetActive(false);
