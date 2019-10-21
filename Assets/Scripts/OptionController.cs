@@ -1,23 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class OptionController : MonoBehaviour
 {
 
     public GameObject levelMenu, optionMenu;
 
-    //private string currentSceneName;
+    private int currentSceneNr;
+    private GameObject gObj;
 
         //TODO ACTIVATE SCENES
 
     //Level Over Choices
     public void StartNextScene()
     {
-
-        Debug.Log("STartNextLevel " + (SceneManager.GetActiveScene().buildIndex + 1));
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        currentSceneNr = SceneManager.GetActiveScene().buildIndex;
+        Debug.Log("STartNextLevel " + (currentSceneNr + 1));
+        if (Application.CanStreamedLevelBeLoaded(currentSceneNr + 1))
+        {
+            SceneManager.LoadScene(currentSceneNr + 1);
+        }
+        else
+        {
+            gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Game Ended";
+            gObj = GameObject.Find("OptionButtons/Next");
+            if (gObj != null)
+            {
+                gObj.SetActive(false);
+            }
+            
+        }
+        
     }
 
 
@@ -30,34 +47,34 @@ public class OptionController : MonoBehaviour
 
 
     //OptionChoices, Can do in Inspector
-    public void ShowOptionMenu()
-    {
-        Debug.Log("Show menu!");
+    //public void ShowOptionMenu()
+    //{
+    //    Debug.Log("Show menu!");
 
-        if (SceneManager.GetActiveScene().buildIndex > 0)
-        {
-            levelMenu.SetActive(false);
-        }
+    //    if (SceneManager.GetActiveScene().buildIndex > 0)
+    //    {
+    //        levelMenu.SetActive(false);
+    //    }
 
-        //levelOverMenu.SetActive(false);
-        optionMenu.SetActive(true);
+    //    //levelOverMenu.SetActive(false);
+    //    optionMenu.SetActive(true);
 
-        //TODO
-        //QUIT
-        //STARTFROM GAmeMenu
-        //No sound
-    }
+    //    //TODO
+    //    //QUIT
+    //    //STARTFROM GAmeMenu
+    //    //No sound
+    //}
 
-    public void CloseOptionWindow()
-    {
-        if (SceneManager.GetActiveScene().buildIndex > 0)
-        {
-            levelMenu.SetActive(true);
-        }
+    //public void CloseOptionWindow()
+    //{
+    //    if (SceneManager.GetActiveScene().buildIndex > 0)
+    //    {
+    //        levelMenu.SetActive(true);
+    //    }
 
-        optionMenu.SetActive(false);
+    //    optionMenu.SetActive(false);
 
-    }
+    //}
 
     public void QuitGame()
     {
