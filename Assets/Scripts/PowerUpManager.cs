@@ -18,9 +18,10 @@ public class PowerUpManager : MonoBehaviour
 
     //[SerializeField]
     private GameObject powerUp;
+    GameManager gameManager;
 
     [SerializeField]
-    private List<GameObject> powers = new List<GameObject>();
+    private List<GameObject> boosters = new List<GameObject>();
     int ran;
 
 
@@ -42,10 +43,12 @@ public class PowerUpManager : MonoBehaviour
         // minSpawnTimer = 5.0f;
         // maxSpawnTimer = 12.0f;
 
-        if (powers == null)
+        if (boosters == null)
         {
             return;
         }
+
+        gameManager = GetComponent<GameManager>();
 
         random = new System.Random();
 
@@ -56,7 +59,7 @@ public class PowerUpManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (SpawnsAllowed)
+        if (SpawnsAllowed && boosters != null && boosters.Count > 0)
         {
             timeSinceSpawn += Time.deltaTime;
             if (timeSinceSpawn > spawnTimer)
@@ -83,8 +86,8 @@ public class PowerUpManager : MonoBehaviour
         //    Debug.Log("Tring to spawn Left!");
         //    leftPowerControlPanel.SpawnPower();
         //}
-        ran = random.Next(0, powers.Count);
-        powerUp = powers[ran];
+        ran = random.Next(0, boosters.Count);
+        powerUp = boosters[ran];
 
         Debug.Log("Tring to spawn in manager!");
         // powerController.SpawnPower();
@@ -92,7 +95,9 @@ public class PowerUpManager : MonoBehaviour
         GameObject power = Instantiate(powerUp);  //TODO RANDOM POWERUP GameObject.FindGameObjectWithTag("BoosterPanels").transform
         power.SetActive(true);
         //all the powers should be able to acess PowerUpManager, for updates and death
-        PowerController pc = power.GetComponentInChildren<PowerController>();
+        //PowerController pc = power.GetComponentInChildren<PowerController>();
+        PowerController pc = power.GetComponent<PowerController>();
+
         //PowerController pc = power.GetComponent<PowerController>();
         pc.powerUpManager = this;
 
@@ -126,8 +131,43 @@ public class PowerUpManager : MonoBehaviour
 
     public void DestroyPowerup(GameObject power)
     {
-        Debug.Log("Destroy POwer");
+        Debug.Log("Destroy Power");
         Destroy(power);
+    }
+
+    public void UsePowerup(String power)
+    {
+
+        switch (power)
+        {
+            case "xTime5":
+                gameManager.AdjustGameTime(5);
+                    break;
+            case "xTime-5":
+                gameManager.AdjustGameTime(-5);
+                break;
+            case "xJump5":
+                gameManager.AdjustJumpSpeed(900);  //600 is normal
+                break;
+            case "xJump-5":
+                gameManager.AdjustJumpSpeed(450);
+                break;
+            case "xSpeed5":
+                gameManager.AdjustGameSpeed(1.5f);
+                break;
+            case "xSpeed-5":
+                gameManager.AdjustGameSpeed(0.7f);
+                break;
+            case "xDoubleJump":
+                gameManager.AllowDoubleJump();
+                break;
+            default:
+
+                Debug.Log("No power was found");
+                break;
+        }
+
+
     }
 
     //collider.gameObject.SetActive(false);

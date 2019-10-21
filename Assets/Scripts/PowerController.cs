@@ -8,6 +8,8 @@ public class PowerController : MonoBehaviour, IPointerDownHandler
 {
 
 
+    //Add to PowerUpManagers boosters list to add the  booster to a scene
+
     //public GameObject powerUp;  // +
    // public GameObject powerDown;  //-
 
@@ -21,17 +23,30 @@ public class PowerController : MonoBehaviour, IPointerDownHandler
 
     //private int randomPower;
 
+
+    //Decide SpawnPoint
+    [SerializeField]  //TODO behöver inte Btn pos
+    private Transform leftSpawnPos, rightSpawnPos, leftMoveBtn, rightMoveBtn;
     private int spawnPoint;
     private System.Random random;
-
-    [SerializeField]  //TODO behöver inte Btn pos
-    private Transform leftSpawnPos, rightSpawnPos, leftBtn, rightBtn;
-
-
-    private Vector3 pos1;  //current
-    private Vector3 pos2;
-
+    //current position, to keep it falling inside the panel
     private Vector3 position;
+
+    //type of booster/power, if clicked
+    String powerType;
+
+
+    //Sizes to decide destroy point of booster
+    private RectTransform rectT;
+    private Vector3[] corners;
+    private float recHeight;
+    private float boostHeight;
+
+    //private float heightDiff = 1.6f;  //1.6 is the height of the buttons and than some
+    //private Vector3 pos1;  //current
+    //private Vector3 pos2;
+
+    
 
     [SerializeField]  //the powerups referense to the manager
     public PowerUpManager powerUpManager;
@@ -63,8 +78,14 @@ public class PowerController : MonoBehaviour, IPointerDownHandler
     private void StartPower()
     {
         random = new System.Random();
-        spawnPoint =  random.Next(0, 2);
+        spawnPoint =  random.Next(0, 2);  //2 spawnpoints
         Debug.Log("Flyttar till hörn");
+
+        //Point of no touching between booster and direction buttons, boostheight/2 + recHeight
+        //half the size ogf the booster
+        boostHeight = transform.GetComponent<SpriteRenderer>().bounds.size.y / 2;
+
+        powerType = gameObject.tag;
 
         if (spawnPoint > 0)
         {
@@ -100,28 +121,33 @@ public class PowerController : MonoBehaviour, IPointerDownHandler
         if (spawnPoint > 0)
         {
             position = new Vector3(rightSpawnPos.position.x, transform.position.y - speed * Time.deltaTime, transform.position.z);
+            rectT = rightMoveBtn.GetComponent<RectTransform>();
         }
         else
         {
             position = new Vector3(leftSpawnPos.position.x, transform.position.y - speed * Time.deltaTime, transform.position.z);
+            rectT = leftMoveBtn.GetComponent<RectTransform>();
 
             //transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime * speed);
         }
 
         transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime * speed);
 
-        RectTransform rectT = leftBtn.GetComponent<RectTransform>();
 
-        Vector3[] corners = new Vector3[4];
+        corners = new Vector3[4];
         rectT.GetWorldCorners(corners);
 
-        float height = corners[2].y - corners[0].y;
+        recHeight = (corners[2].y - corners[0].y);
+
+
         //float height = rectT.GetWorldCorners(); //rectT.rect.height / 2 ;
-       // float height2 = corners2[2].y - corners2[0].y;
+        // float height2 = corners2[2].y - corners2[0].y;
 
-        Debug.Log(height + " HEIGHT * 2");
+        //Debug.Log(height + " HEIGHT * 2");
 
-        if (transform.position.y < leftBtn.position.y + (height * 2)) //leftBtn.position.y
+
+       // Debug.Log(recHeight + " hmm " + boostHeight);
+        if (transform.position.y < (leftMoveBtn.position.y + (recHeight + boostHeight)) || transform.position.y < (rightMoveBtn.position.y + (recHeight + boostHeight))) //leftBtn.position.y
             DestroyPower();
 
         //    }
@@ -180,6 +206,16 @@ public class PowerController : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("Pressed!!!!!!!");
+        
+        if (powerType != null)
+        {
+
+            //TODO SOUND
+            Debug.Log("Pressed!!!!!!! " + powerType);
+            powerUpManager.UsePowerup(powerType);
+            DestroyPower();
+
+        }
+        
     }
 }

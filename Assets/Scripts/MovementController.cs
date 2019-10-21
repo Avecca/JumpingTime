@@ -22,6 +22,9 @@ public class MovementController : MonoBehaviour
     float movementDir;
 
     [SerializeField]
+    private GameManager gameManager;
+
+    [SerializeField]
     private bool doubleJumpActive = false;
     private int jumped;
     private bool jumpPossible = false;
@@ -38,11 +41,10 @@ public class MovementController : MonoBehaviour
 
     float origGravity;
 
-    //TODO remove
-    [SerializeField]
-    bool AIR = false;
 
     private bool stopAllMovement = false;
+
+    public bool AIR;
 
 
 
@@ -146,7 +148,7 @@ public class MovementController : MonoBehaviour
                // Debug.Log("JUmp pissoble");
 
                 
-                Debug.Log(jumpPossible);
+               // Debug.Log(jumpPossible);
             }
 
         }
@@ -211,7 +213,7 @@ public class MovementController : MonoBehaviour
         rb.velocity = new Vector2(movementDir * moveSpeed, rb.velocity.y);
 
         //walking on interactable objects
-        if (!onGroundCheck)
+        if (!onGroundCheck)  //TODO REMOVE if not in use
         {
            // gameObject.layer = 9;  //Falling
         }
@@ -227,7 +229,17 @@ public class MovementController : MonoBehaviour
         //IF Player hits a 2DCollision object
     private void OnCollisionEnter2D(Collision2D collision)
     {
-       
+
+        if (collision.gameObject.tag.Equals("WinningStar"))
+        {
+
+            Debug.Log("WINNING STAR");
+            gameManager.StarPassed();
+            gameManager.LevelOverMenu("Winning Level!");
+        } 
+
+
+
         if (collision.gameObject.tag.Equals("movingObject"))
         {
             Debug.Log("enter moving objectx TRY");
@@ -245,7 +257,19 @@ public class MovementController : MonoBehaviour
 
 
         }
+
     }
+    private void OnTriggerEnter(Collider col)
+    {
+
+        if (col.gameObject.tag.Equals("PassingStar"))
+        {
+            Debug.Log("STAR!");
+            gameManager.StarPassed();
+        }
+
+    }
+
 
     private void OnCollisionExit2D(Collision2D collision)
     {
@@ -260,6 +284,11 @@ public class MovementController : MonoBehaviour
 
     }
 
+    public float GetJumpSpeed()
+    {
+        return jumpSpeed;
+    }
+
     public void ChangeJumpSpeed(float speed)
     {
         jumpSpeed = speed;
@@ -270,10 +299,9 @@ public class MovementController : MonoBehaviour
         moveSpeed = speed;
     }
 
-    public bool DoubleJumpActive
+    public void DoubleJumpActive(bool active)
     {
-        get { return doubleJumpActive; }
-        set { doubleJumpActive = value; }
+        doubleJumpActive = active;
     }
 
 

@@ -13,6 +13,14 @@ TagManager:
   - countdownTxt
   - xTime5
   - BoosterPanels
+  - xSpeed5
+  - xJump5
+  - xSpeed-5
+  - xTime-5
+  - xJump-5
+  - xDoubleJump
+  - WinningStar
+  - PassingStar
   layers:
   - Default
   - TransparentFX

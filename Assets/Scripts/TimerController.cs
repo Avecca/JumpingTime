@@ -67,15 +67,12 @@ public class TimerController : MonoBehaviour
     }
 
 
-    public void AddTime(float time)
+    public void AdjustTime(float time)
     {
         TimeLeft = TimeLeft + time;
     }
 
-    public void SubtractTime(float time)
-    {
-        TimeLeft = TimeLeft - time;
-    }
+
 
     public void StartGame()
     {
