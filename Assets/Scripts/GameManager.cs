@@ -34,7 +34,10 @@ public class GameManager : MonoBehaviour
     Color32 yellow = new Color32(224, 212, 35, 255);
 
 
-    private string currentSceneName;
+    // private int currentSceneIndex;
+    // AsyncOperation async;
+    private GameObject currentSceneManagement;
+    private SceneManagement currentSceneManagementScript;
 
 
     //public TextMeshProUGUI timeTextController;
@@ -50,7 +53,7 @@ public class GameManager : MonoBehaviour
     {
 
         //TODO sätt olika timers per bana
-        currentSceneName = SceneManager.GetActiveScene().name;
+        //currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         countdownController = GetComponent<CountdownController>();
         powerUpManager = GetComponent<PowerUpManager>();
         jumpSpeedOrigional = movementController.GetJumpSpeed();
@@ -59,6 +62,8 @@ public class GameManager : MonoBehaviour
         //Countdown till start
         movementController.StopAllMovement(true);
         countdownController.StartCountDown();
+
+        //TODO if startscene preload first
 
     }
 
@@ -131,8 +136,42 @@ public class GameManager : MonoBehaviour
         gameIsRunning = false;
 
 
-        //TODO LOAD next Scene
+
+        //TODO PreLOAD next Scene
+
+        
+        PreLoadNextScene();
+
+
+
     }
+
+    private void PreLoadNextScene()
+    {
+        //currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        //if (Application.CanStreamedLevelBeLoaded(currentSceneIndex + 1))
+        //{
+        //    async = SceneManager.LoadSceneAsync(currentSceneIndex + 1);
+        //    async.allowSceneActivation = false;
+        //    //SceneManager.LoadScene(currentSceneIndex + 1);
+        //}
+
+        currentSceneManagement = GameObject.Find("SceneManagement");
+
+        if (currentSceneManagement != null)
+        {
+            currentSceneManagementScript = currentSceneManagement.GetComponent<SceneManagement>();
+
+            currentSceneManagementScript.PreLoadNextScene();
+
+        }
+
+       
+
+    }
+
+
 
     private void colorStars()
     {
@@ -221,6 +260,23 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(powerLastingTimer);
         movementController.DoubleJumpActive(false);
     }
+
+    //public void StartNextScene()
+    //{
+
+    //    //if (async != null)
+    //    //{
+    //    //    Debug.Log("Async is present " + async);
+    //    //    async.allowSceneActivation = true;
+    //    //}
+    //    //else
+    //    //{
+    //    //    if (Application.CanStreamedLevelBeLoaded(SceneManager.GetActiveScene().buildIndex + 1))
+    //    //    {
+    //    //        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    //    //    }
+    //    //}
+    //}
 
 
     //TODO, Happens in OptionsController

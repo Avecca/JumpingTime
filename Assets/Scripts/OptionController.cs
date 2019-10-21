@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class OptionController : MonoBehaviour
 {
@@ -15,33 +15,33 @@ public class OptionController : MonoBehaviour
 
         //TODO ACTIVATE SCENES
 
+        
+
+        
+
     //Level Over Choices
-    public void StartNextScene()
+    public void CheckNextScene()
     {
         currentSceneNr = SceneManager.GetActiveScene().buildIndex;
         Debug.Log("STartNextLevel " + (currentSceneNr + 1));
-        if (Application.CanStreamedLevelBeLoaded(currentSceneNr + 1))
+        if (!Application.CanStreamedLevelBeLoaded(currentSceneNr + 1))
         {
-            SceneManager.LoadScene(currentSceneNr + 1);
-        }
-        else
-        {
+            
             gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Game Ended";
             gObj = GameObject.Find("OptionButtons/Next");
             if (gObj != null)
             {
                 gObj.SetActive(false);
             }
-            
-        }
-        
+        } //If Exists is handled in Gamemanager
+
     }
 
 
     public void RestartScene()
     {
         Debug.Log("RESTART SCENE");
-       // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         //timescale
     }
 
