@@ -230,13 +230,13 @@ public class MovementController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
-        if (collision.gameObject.tag.Equals("WinningStar"))
-        {
+        //if (collision.gameObject.tag.Equals("WinningStar"))
+        //{
 
-            Debug.Log("WINNING STAR");
-            gameManager.StarPassed();
-            gameManager.LevelOverMenu("Winning Level!");
-        } 
+        //    Debug.Log("WINNING STAR");
+        //    gameManager.StarPassed();
+        //    gameManager.LevelOverMenu("Winning Level!");
+        //} 
 
 
 
@@ -259,16 +259,7 @@ public class MovementController : MonoBehaviour
         }
 
     }
-    private void OnTriggerEnter(Collider col)
-    {
 
-        if (col.gameObject.tag.Equals("PassingStar"))
-        {
-            Debug.Log("STAR!");
-            gameManager.StarPassed();
-        }
-
-    }
 
 
     private void OnCollisionExit2D(Collision2D collision)
