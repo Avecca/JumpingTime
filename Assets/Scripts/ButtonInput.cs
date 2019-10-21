@@ -37,11 +37,11 @@ public class ButtonInput : MonoBehaviour
             {
                 case "btnRestart":
                     Debug.Log("Restart tag selected");
-                    gameManager.RestartScene();
+                    //gameManager.RestartScene();
                     break;
                 case "btnNext":
                     Debug.Log("Next level tag selected");
-                    gameManager.StartNextScene();
+                   // gameManager.StartNextScene();
                     break;
                 default:
                     Debug.Log("Tag doesnt exist");

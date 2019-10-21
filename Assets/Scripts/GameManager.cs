@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     PowerUpManager powerUpManager;
 
     //seperate entitys, connect through inspector
-    public GameObject hurry, levelOver,countdown;  //todo remove countdown
+    public GameObject hurry, levelOverMenu, optionMenu, countdown;  //todo remove countdown
 
     public TimerController timerController;
     //todo to stop movement stopMovement in StopMovement(true);
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private int starsCaught;
 
-    Color32 yellow = new Color32(233, 214, 43, 100);
+    Color32 yellow = new Color32(224, 212, 35, 255);
 
 
     private string currentSceneName;
@@ -115,8 +115,8 @@ public class GameManager : MonoBehaviour
         //Stop char/everything from moving
         Time.timeScale = 0;
         
-        levelOver.gameObject.SetActive(true);
-        levelOver.GetComponentInChildren<TextMeshProUGUI>().text = msg;
+        levelOverMenu.gameObject.SetActive(true);
+        levelOverMenu.GetComponentInChildren<TextMeshProUGUI>().text = msg;
 
         if (starsCaught > 0)
         {
@@ -223,31 +223,34 @@ public class GameManager : MonoBehaviour
     }
 
 
-    //TODO
-    public void RestartScene()
-    {
-        Debug.Log("RESTART SCENE");
-        //SceneManager.LoadScene(currentSceneName);
-        //timescale
-    }
+    //TODO, Happens in OptionsController
+    //public void RestartScene()
+    //{
+    //    Debug.Log("RESTART SCENE");
+    //    //SceneManager.LoadScene(currentSceneName);
+    //    //timescale
+    //}
 
 
-    public void StartNextScene()
-    {
+    //public void StartNextScene()
+    //{
 
-        Debug.Log("STartNextGame");
-        //SceneManager.LoadScene("SCENENENENENEN");
-    }
+    //    Debug.Log("STartNextGame");
+    //    //SceneManager.LoadScene("SCENENENENENEN");
+    //}
 
-    public void ShowMenu()
-    {
-        Debug.Log("Show menu!");
+    //public void ShowMenu()
+    //{
+    //    Debug.Log("Show menu!");
 
-        //TODO
-        //QUIT
-        //STARTFROM GAmeMenu
-        //No sound
-    }
+    //    levelOverMenu.SetActive(false);
+    //    optionMenu.SetActive(true);
+
+    //    //TODO
+    //    //QUIT
+    //    //STARTFROM GAmeMenu
+    //    //No sound
+    //}
 }
 
 
