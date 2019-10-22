@@ -29,6 +29,7 @@ public class PowerController : MonoBehaviour, IPointerDownHandler
     private Transform leftSpawnPos, rightSpawnPos, leftMoveBtn, rightMoveBtn;
     private int spawnPoint;
     private System.Random random;
+    private int nrSpawnPoints = 2;
     //current position, to keep it falling inside the panel
     private Vector3 position;
 
@@ -78,7 +79,7 @@ public class PowerController : MonoBehaviour, IPointerDownHandler
     private void StartPower()
     {
         random = new System.Random();
-        spawnPoint =  random.Next(0, 2);  //2 spawnpoints
+        spawnPoint =  random.Next(0, nrSpawnPoints);  //2 spawnpoints
         Debug.Log("Flyttar till hörn");
 
         //Point of no touching between booster and direction buttons, boostheight/2 + recHeight

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,7 +7,14 @@ using UnityEngine.SceneManagement;
 public class SceneManagement : MonoBehaviour
 {
     //Must exist in every scene, at the top
+    //TODO Scene specific data
+    //TODOLevel manager som har koll på alla stats för närvarande nivån, powers, timer osv?
+    //spawna Player?
+    //change music
+    //se till att gamemanager häner med?
 
+    [SerializeField]
+    private AudioClip backGroundSound;
 
     private int currentSceneIndex;
     AsyncOperation async;
@@ -15,13 +23,30 @@ public class SceneManagement : MonoBehaviour
     {
         currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
-        if (currentSceneIndex == 0)
+        PlayStartSound();
+
+        if (SceneManager.GetActiveScene().name == "Start")  //main menu, index == 0
         {
             PreLoadNextScene();
+            
         }
+
+       
+
+        //TODO this scenes changes! music, new stats in game manager osv, andra boosters
     }
 
+    private void PlayStartSound()
+    {
 
+        
+        if (backGroundSound != null)
+        {
+            Debug.Log("Sending sound to SM");
+            SoundManager.Instance.PlayBackground(backGroundSound);
+        }
+        
+    }
 
     public void PreLoadNextScene()
     {
@@ -53,6 +78,9 @@ public class SceneManagement : MonoBehaviour
             }
         }
     }
+
+
+    //SCene 2, 
 
 
 }

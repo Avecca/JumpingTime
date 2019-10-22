@@ -13,6 +13,7 @@ public class CountdownController : MonoBehaviour
 
     [SerializeField]
     private float timeTillStart = 5f;
+    private float countDownFrom = 5f;
 
     public TextMeshProUGUI text;
 
@@ -49,6 +50,7 @@ public class CountdownController : MonoBehaviour
     public void StartCountDown()
     {
         //gameObject.SetActive(true);
+        timeTillStart = countDownFrom;
         countingDown = true;
         StartCoroutine("CountdownStarted");
     }

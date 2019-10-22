@@ -4,37 +4,137 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
+    private static SoundManager _instance;
+    public AudioSource backgroundSource;
+    //AudioSource clickSource;
+    public AudioSource audioSound;
 
 
-    [SerializeField]
-    private AudioClip startSound;
+   
+    //List<AudioSource> sources;
 
-    public AudioClip StartSound
+   [SerializeField]
+    private AudioClip buttonClick, powerClick;
+
+    private bool soundEnabled = true;
+
+    public static SoundManager Instance
     {
         get
         {
-            return startSound;
+
+            if (_instance == null)
+            {
+                
+                _instance = new SoundManager();
+                Debug.Log("SoundManager instantiated");
+            }
+            return _instance;
+        }
+    }
+
+
+    private void Awake()
+    {
+
+        if (_instance != null && _instance != this) //!=this då finns det 2
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
         }
 
     }
 
-    AudioSource audioSource;
 
     private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        //foreach (var source in GetComponents<AudioSource>())
+        //{
+        //    sources.Add(source);
+        //}
+
+        //AudioSource[] aS;
+        //aS = GetComponents<AudioSource>();
+
+        //Debug.Log("NR " +aS.Length);
+        //backgroundSource = aS[0];
+        ////clickSource = aS[1];
+        //audioSound = aS[1];
+        //audioSound.clip = buttonClick;
+        //Debug.Log("hmm " + audioSound.clip.name);
+        //PlaySound();
+
+
     }
 
-    public void PlayStart()
+    public void PlayBtnClick()
     {
-        audioSource.clip = StartSound;
+        Debug.Log("Setting audiosource");
+        Debug.Log("hmm " + buttonClick.name);
+        // Debug.Log("hmm " + audioSound.clip.name);
+        audioSound.clip = buttonClick;
+        // audioSound.clip = buttonClick;
+        Debug.Log("Set audiosource " + audioSound.clip.name);
+        if (audioSound.clip != null)
+        {
+            Debug.Log("PLaying bg sound");
+            PlaySound();
+        }
+
+    }
+
+    public void PlayPowerEffect()
+    {
+        //clickSource.clip = powerClick;
         PlaySound();
+    }
+
+    public void PlayBackground( AudioClip bgSound)
+    {
+        
+        backgroundSource.clip = bgSound;
+        if (soundEnabled)
+        {
+            
+            backgroundSource.Play();
+           
+        }
     }
 
 
     private void PlaySound()
     {
-        audioSource.Play();
+        if (soundEnabled)
+        {
+
+            Debug.Log("PLay SOUND!!!!!!");
+            // clickSource.Play();
+            audioSound.Play();
+        }
+        
+    }
+
+    public void TurnSoundToggle()
+    {
+        //soundEnabled = !soundEnabled;
+
+
+        if (soundEnabled)
+        {
+            soundEnabled = false;
+            backgroundSource.mute = true;
+        }
+        else
+        {
+            soundEnabled = true;
+            backgroundSource.mute = false;
+        }
+
+
     }
 
 }

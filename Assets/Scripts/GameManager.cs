@@ -8,6 +8,28 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+
+
+    //private static GameManager _instance;
+
+    ////singleton
+    //public static GameManager Instance
+    //{
+    //    get
+    //    {
+
+    //        if (_instance == null)
+    //        {
+    //            _instance = new GameManager();
+    //        }
+    //        return _instance;
+    //    }
+    //}
+
+
+
+
+
     //Under the same "item" GameManager, init i start då
     CountdownController countdownController;
     PowerUpManager powerUpManager;
@@ -50,7 +72,14 @@ public class GameManager : MonoBehaviour
     {
 
         StartSequence();
+
+        //Singleton
+        //SoundManager.Instance.PlayBackground();
     }
+
+
+    //TODOLevel manager som har koll på alla stats för närvarande nivån, powers, timer osv?
+    //  == Scenemanagement
 
     private void StartSequence()
     {
@@ -62,6 +91,8 @@ public class GameManager : MonoBehaviour
         jumpSpeedOrigional = movementController.GetJumpSpeed();
         starsCaught = 0;
 
+
+        //TODO IF STartScene
         //Countdown till start
         movementController.StopAllMovement(true);
         countdownController.StartCountDown();

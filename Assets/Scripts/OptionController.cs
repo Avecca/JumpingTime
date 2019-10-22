@@ -23,7 +23,7 @@ public class OptionController : MonoBehaviour
     public void CheckNextScene()
     {
         currentSceneNr = SceneManager.GetActiveScene().buildIndex;
-        Debug.Log("STartNextLevel " + (currentSceneNr + 1));
+        //Debug.Log("STartNextLevel " + (currentSceneNr + 1));
         if (!Application.CanStreamedLevelBeLoaded(currentSceneNr + 1))
         {
             
@@ -85,7 +85,7 @@ public class OptionController : MonoBehaviour
 
     public void SoundToggle()
     {
-        Debug.Log("SoundToggle");
+        SoundManager.Instance.TurnSoundToggle();
     }
 
 
