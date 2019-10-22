@@ -36,8 +36,11 @@ public class GameManager : MonoBehaviour
 
     // private int currentSceneIndex;
     // AsyncOperation async;
+
+    //Handle the Scene changes
     private GameObject currentSceneManagement;
     private SceneManagement currentSceneManagementScript;
+    private GameObject nextButton;
 
 
     //public TextMeshProUGUI timeTextController;
@@ -126,6 +129,15 @@ public class GameManager : MonoBehaviour
         if (starsCaught > 0)
         {
             colorStars();
+        }
+        else  //not be able to play next level
+        {
+            nextButton = GameObject.Find("OptionButtons/Next");
+            if (nextButton != null)
+            {
+                nextButton.SetActive(false);
+            }
+
         }
 
         //stop spawning powerups
