@@ -31,7 +31,12 @@ public class SceneManagement : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "Start")  //main menu, index == 0
         {
             PreLoadNextScene();
-            
+
+        }
+        else
+        {
+            //TODO WHEN SINGLETON GAMEMANAGER
+            //GameManager.Instance.NewLevelSceneStart();
         }
 
        
@@ -45,7 +50,7 @@ public class SceneManagement : MonoBehaviour
         
         if (backGroundSound != null)
         {
-            Debug.Log("Sending sound to SM");
+            //Debug.Log("Sending sound to SM");
             SoundManager.Instance.PlayBackground(backGroundSound);
         }
         

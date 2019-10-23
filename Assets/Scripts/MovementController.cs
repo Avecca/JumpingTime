@@ -35,7 +35,7 @@ public class MovementController : MonoBehaviour
 
     //TODO hide from inspector
     [SerializeField]
-    private float jumpSpeed = 600f;
+    private float jumpSpeed = 650f;
     [SerializeField]
     private float moveSpeed = 6f;   //force?
 

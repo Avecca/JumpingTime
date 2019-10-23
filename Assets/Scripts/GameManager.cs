@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
 
     public TimerController timerController;
     //todo to stop movement stopMovement in StopMovement(true);
-    public MovementController movementController;  
+    public MovementController playerMovementController;  
     //public CountdownController countdownController;
 
     private int showHurryMax = 8;
@@ -75,8 +75,16 @@ public class GameManager : MonoBehaviour
 
         //Singleton
         //SoundManager.Instance.PlayBackground();
+
     }
 
+
+
+
+    private void Update()
+    {
+        ControlGameTimer();
+    }
 
     //TODOLevel manager som har koll på alla stats för närvarande nivån, powers, timer osv?
     //  == Scenemanagement
@@ -88,22 +96,22 @@ public class GameManager : MonoBehaviour
         //currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         countdownController = GetComponent<CountdownController>();
         powerUpManager = GetComponent<PowerUpManager>();
-        jumpSpeedOrigional = movementController.GetJumpSpeed();
+        jumpSpeedOrigional = playerMovementController.GetJumpSpeed();
         starsCaught = 0;
 
 
         //TODO IF STartScene
         //Countdown till start
-        movementController.StopAllMovement(true);
+        playerMovementController.StopAllMovement(true);
         countdownController.StartCountDown();
 
         //TODO if startscene preload first
 
     }
 
-    private void Update()
+    public void NewLevelSceneStart()
     {
-        ControlGameTimer();
+        StartSequence();
     }
 
 
@@ -240,7 +248,7 @@ public class GameManager : MonoBehaviour
     public void StartGameTimer()
     {
         Debug.Log("Trying to start game timer");
-        movementController.StopAllMovement(false);
+        playerMovementController.StopAllMovement(false);
         timerController.StartGame();
         powerUpManager.AllowSpawns(true);
     }
@@ -264,12 +272,12 @@ public class GameManager : MonoBehaviour
     IEnumerator ChangeJumpSpeed(float speed)
     {
 
-        movementController.ChangeJumpSpeed(speed);
+        playerMovementController.ChangeJumpSpeed(speed);
 
         yield return new WaitForSeconds(powerLastingTimer);
 
         //Taken at Start
-        movementController.ChangeJumpSpeed(jumpSpeedOrigional);
+        playerMovementController.ChangeJumpSpeed(jumpSpeedOrigional);
 
 
     }
@@ -298,10 +306,10 @@ public class GameManager : MonoBehaviour
 
     IEnumerator DoubleJump()
     {
-        movementController.DoubleJumpActive(true);
+        playerMovementController.DoubleJumpActive(true);
 
         yield return new WaitForSeconds(powerLastingTimer);
-        movementController.DoubleJumpActive(false);
+        playerMovementController.DoubleJumpActive(false);
     }
 
     //public void StartNextScene()
