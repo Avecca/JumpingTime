@@ -50,26 +50,26 @@ public class SoundManager : MonoBehaviour
     }
 
 
-    private void Start()
-    {
-        //foreach (var source in GetComponents<AudioSource>())
-        //{
-        //    sources.Add(source);
-        //}
+    //private void Start()
+    //{
+    //    //foreach (var source in GetComponents<AudioSource>())
+    //    //{
+    //    //    sources.Add(source);
+    //    //}
 
-        //AudioSource[] aS;
-        //aS = GetComponents<AudioSource>();
+    //    //AudioSource[] aS;
+    //    //aS = GetComponents<AudioSource>();
 
-        //Debug.Log("NR " +aS.Length);
-        //backgroundSource = aS[0];
-        ////clickSource = aS[1];
-        //audioSound = aS[1];
-        //audioSound.clip = buttonClick;
-        //Debug.Log("hmm " + audioSound.clip.name);
-        //PlaySound();
+    //    //Debug.Log("NR " +aS.Length);
+    //    //backgroundSource = aS[0];
+    //    ////clickSource = aS[1];
+    //    //audioSound = aS[1];
+    //    //audioSound.clip = buttonClick;
+    //    //Debug.Log("hmm " + audioSound.clip.name);
+    //    //PlaySound();
 
 
-    }
+    //}
 
     public void PlayBtnClick()
     {
