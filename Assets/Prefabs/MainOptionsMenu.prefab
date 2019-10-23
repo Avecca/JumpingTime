@@ -199,8 +199,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: PlayBtnClick
+      - m_Target: {fileID: 2298297262510718949}
+        m_MethodName: onClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -894,8 +894,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: PlayBtnClick
+      - m_Target: {fileID: 2298297262510718949}
+        m_MethodName: onClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1038,8 +1038,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: PlayBtnClick
+      - m_Target: {fileID: 2298297262510718949}
+        m_MethodName: onClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1428,6 +1428,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelMenu: {fileID: 0}
   optionMenu: {fileID: 2298297262510718953}
+  click: {fileID: 8300000, guid: 473ccfe852e374b38b01bb688505f932, type: 3}
 --- !u!1 &2298297262764117737
 GameObject:
   m_ObjectHideFlags: 0

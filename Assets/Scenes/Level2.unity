@@ -1062,7 +1062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d024110b92954868ab8e6cbc1a26a9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backGroundSound: {fileID: 0}
+  backGroundSound: {fileID: 8300000, guid: 751b9b4bf146441a3b4a559b1f2d7bb3, type: 3}
 --- !u!4 &1873551440
 Transform:
   m_ObjectHideFlags: 0

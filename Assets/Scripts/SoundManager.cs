@@ -25,8 +25,8 @@ public class SoundManager : MonoBehaviour
 
             if (_instance == null)
             {
-                
-                _instance = new SoundManager();
+
+                _instance = Instantiate(Resources.Load<GameObject>("SoundManager")).GetComponent<SoundManager>(); //new SoundManager();
                 Debug.Log("SoundManager instantiated");
             }
             return _instance;
@@ -73,12 +73,12 @@ public class SoundManager : MonoBehaviour
 
     public void PlayBtnClick()
     {
-        Debug.Log("Setting audiosource");
-        Debug.Log("hmm " + buttonClick.name);
+       // Debug.Log("Setting audiosource");
+       // Debug.Log("hmm " + buttonClick.name);
         // Debug.Log("hmm " + audioSound.clip.name);
         audioSound.clip = buttonClick;
         // audioSound.clip = buttonClick;
-        Debug.Log("Set audiosource " + audioSound.clip.name);
+       // Debug.Log("Set audiosource " + audioSound.clip.name);
         if (audioSound.clip != null)
         {
             Debug.Log("PLaying bg sound");
@@ -99,9 +99,20 @@ public class SoundManager : MonoBehaviour
         backgroundSource.clip = bgSound;
         if (soundEnabled)
         {
-            
+           
             backgroundSource.Play();
            
+        }
+    }
+    public void PlayEffect(AudioClip effect)
+    {
+
+        audioSound.clip = effect;
+        if (soundEnabled)
+        {
+
+            audioSound.Play();
+
         }
     }
 

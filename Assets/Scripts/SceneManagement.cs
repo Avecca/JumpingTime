@@ -23,6 +23,9 @@ public class SceneManagement : MonoBehaviour
     {
         currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
+        //SoundManager.Instance.transform.position = Vector3.zero;
+        //SoundManager.Instance();
+
         PlayStartSound();
 
         if (SceneManager.GetActiveScene().name == "Start")  //main menu, index == 0

@@ -99,6 +99,7 @@ MonoBehaviour:
   rightSpawnPos: {fileID: 0}
   leftMoveBtn: {fileID: 0}
   rightMoveBtn: {fileID: 0}
+  clickSound: {fileID: 8300000, guid: db3323a45ffdf49d3939c33c3c1cfa8d, type: 3}
   powerUpManager: {fileID: 0}
 --- !u!61 &525236276679085025
 BoxCollider2D:

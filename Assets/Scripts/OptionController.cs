@@ -9,6 +9,8 @@ public class OptionController : MonoBehaviour
 {
 
     public GameObject levelMenu, optionMenu;
+    [SerializeField]
+    private AudioClip click;
 
     private int currentSceneNr;
     private GameObject gObj;
@@ -43,6 +45,12 @@ public class OptionController : MonoBehaviour
         Debug.Log("RESTART SCENE");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         //timescale
+    }
+
+
+    public void onClick()
+    {
+        SoundManager.Instance.PlayEffect(click);
     }
 
 

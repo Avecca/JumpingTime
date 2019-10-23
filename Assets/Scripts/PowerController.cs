@@ -27,6 +27,8 @@ public class PowerController : MonoBehaviour, IPointerDownHandler
     //Decide SpawnPoint
     [SerializeField]  //TODO behöver inte Btn pos
     private Transform leftSpawnPos, rightSpawnPos, leftMoveBtn, rightMoveBtn;
+    [SerializeField]
+    AudioClip clickSound;
     private int spawnPoint;
     private System.Random random;
     private int nrSpawnPoints = 2;
@@ -213,6 +215,7 @@ public class PowerController : MonoBehaviour, IPointerDownHandler
 
             //TODO SOUND
             Debug.Log("Pressed!!!!!!! " + powerType);
+            SoundManager.Instance.PlayEffect(clickSound);
             powerUpManager.UsePowerup(powerType);
             DestroyPower();
 
