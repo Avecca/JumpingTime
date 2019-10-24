@@ -54,6 +54,12 @@ public class OptionController : MonoBehaviour
     }
 
 
+    public void Slider()
+    {
+        //TODO GameManager.Instance
+    }
+
+
     //OptionChoices, Can do in Inspector
     //public void ShowOptionMenu()
     //{
