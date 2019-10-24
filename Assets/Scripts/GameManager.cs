@@ -45,7 +45,8 @@ public class GameManager : MonoBehaviour
     private int showHurryMax = 8;
     private int showHurryMin = 5;
     // private int startCountDown = 5; in timercontroller
-    public int powerLastingTimer = 15;
+    public int powerLastingTimer = 10;
+    private float difficultyTimeCorrector = 0;
     private float jumpSpeedOrigional;
     private bool gameIsRunning = true;
 
@@ -79,8 +80,6 @@ public class GameManager : MonoBehaviour
     }
 
 
-
-
     private void Update()
     {
         ControlGameTimer();
@@ -101,6 +100,8 @@ public class GameManager : MonoBehaviour
 
 
         //TODO IF STartScene
+
+        gameIsRunning = false;
         //Countdown till start
         playerMovementController.StopAllMovement(true);
         countdownController.StartCountDown();
@@ -114,12 +115,8 @@ public class GameManager : MonoBehaviour
         StartSequence();
     }
 
-
-
     private void ControlGameTimer()
     {
-
-
         if (gameIsRunning)
         {
 
@@ -215,11 +212,7 @@ public class GameManager : MonoBehaviour
             currentSceneManagementScript = currentSceneManagement.GetComponent<SceneManagement>();
 
             currentSceneManagementScript.PreLoadNextScene();
-
         }
-
-       
-
     }
 
 
@@ -247,6 +240,8 @@ public class GameManager : MonoBehaviour
 
     public void StartGameTimer()
     {
+        //TODO gameIsrnning = true
+        gameIsRunning = true;
         Debug.Log("Trying to start game timer");
         playerMovementController.StopAllMovement(false);
         timerController.StartGame();
@@ -293,7 +288,8 @@ public class GameManager : MonoBehaviour
     IEnumerator ChangeGameSpeed(float speed)
     {
         Time.timeScale = speed;
-        yield return new WaitForSeconds(powerLastingTimer);
+        //only last 10 secs -3
+        yield return new WaitForSeconds(powerLastingTimer - 3);
         Time.timeScale = 1.0f;
     }
 
@@ -301,6 +297,16 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Allow DoubleJump");
         StartCoroutine(DoubleJump());
+    }
+
+    //TODO not called yet, only doable while gameiSrunning
+    public void AdjustDifficulty(float time)
+    {
+        //TODO  !gameisrunning
+        if (!gameIsRunning)
+        {
+            timerController.SetStartTimeAccordingToDifficulty(time);
+        }
     }
 
 

@@ -4032,7 +4032,7 @@ MonoBehaviour:
   countdown: {fileID: 318451674}
   timerController: {fileID: 1178662156}
   playerMovementController: {fileID: 83066035}
-  powerLastingTimer: 15
+  powerLastingTimer: 10
   starsCaught: 0
 --- !u!114 &961571602
 MonoBehaviour:
@@ -5041,6 +5041,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeLeft: 90
+  baseTime: 90
 --- !u!1 &1180143259
 GameObject:
   m_ObjectHideFlags: 0

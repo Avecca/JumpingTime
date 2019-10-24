@@ -1438,12 +1438,12 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 538567506}
+  - {fileID: 1668324572}
   - {fileID: 1552800991}
   - {fileID: 581847898}
   - {fileID: 1810713440}
   - {fileID: 349955332}
   - {fileID: 1148870049}
-  - {fileID: 1668324572}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2251,7 +2251,7 @@ PrefabInstance:
     - target: {fileID: 8639785660583366195, guid: 23e033e6cc2ab49cda077516f1f14cf8,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8639785660583366195, guid: 23e033e6cc2ab49cda077516f1f14cf8,
         type: 3}
@@ -3945,7 +3945,7 @@ RectTransform:
   m_LocalScale: {x: 2.111625, y: 2.111625, z: 2.111625}
   m_Children: []
   m_Father: {fileID: 96794208}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -6322,7 +6322,7 @@ PrefabInstance:
     - target: {fileID: 3355073081701356343, guid: 8e657c3a6ecf24d94b58a691fac34bb3,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3355073081701356343, guid: 8e657c3a6ecf24d94b58a691fac34bb3,
         type: 3}
@@ -7945,7 +7945,7 @@ RectTransform:
   - {fileID: 217910825}
   - {fileID: 1317813544}
   m_Father: {fileID: 96794208}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8745,7 +8745,7 @@ Transform:
   - {fileID: 1322640092}
   - {fileID: 683517487}
   m_Father: {fileID: 96794208}
-  m_RootOrder: 6
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1760635338
 PrefabInstance:
@@ -8853,7 +8853,7 @@ RectTransform:
   m_LocalScale: {x: 2.111625, y: 2.111625, z: 2.111625}
   m_Children: []
   m_Father: {fileID: 96794208}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -8996,6 +8996,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeLeft: 90
+  baseTime: 90
 --- !u!1001 &1841763091
 PrefabInstance:
   m_ObjectHideFlags: 0
