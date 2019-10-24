@@ -35,7 +35,7 @@ public class MovementController : MonoBehaviour
 
     //TODO hide from inspector
     [SerializeField]
-    private float jumpSpeed = 650f;
+    private float jumpSpeed = 620f;
     [SerializeField]
     private float moveSpeed = 6f;   //force?
 
@@ -294,6 +294,12 @@ public class MovementController : MonoBehaviour
     {
         doubleJumpActive = active;
     }
+
+    public bool GetDoubleJumpActive()
+    {
+        return doubleJumpActive;
+    }
+
 
 
     public void StopAllMovement(bool stop)

@@ -106,7 +106,7 @@ public class PowerController : MonoBehaviour, IPointerDownHandler
 
 
     //TODO TEMP REMOVE
-    bool moving = true;
+   // bool moving = true;
     private void MovePower()
     {
         // transform.localPosition = Vector3.MoveTowards(transform.localPosition, leftBtn.localPosition, speed * Time.deltaTime);

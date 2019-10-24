@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
     private int showHurryMin = 5;
     // private int startCountDown = 5; in timercontroller
     public int powerLastingTimer = 10;
-    private float difficultyTimeCorrector = 0;
+   // private float difficultyTimeCorrector = 0;
     private float jumpSpeedOrigional;
     private bool gameIsRunning = true;
 
@@ -296,7 +296,12 @@ public class GameManager : MonoBehaviour
     public void AllowDoubleJump()
     {
         Debug.Log("Allow DoubleJump");
-        StartCoroutine(DoubleJump());
+        //allow doublejump if not already active
+        if (!playerMovementController.GetDoubleJumpActive())
+        {
+            StartCoroutine(DoubleJump());
+        }
+        
     }
 
     //TODO not called yet, only doable while gameiSrunning

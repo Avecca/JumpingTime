@@ -99,7 +99,7 @@ MonoBehaviour:
   movementDir: 0
   gameManager: {fileID: 0}
   doubleJumpActive: 0
-  jumpSpeed: 650
+  jumpSpeed: 620
   moveSpeed: 6
   AIR: 0
 --- !u!58 &902848634703692499

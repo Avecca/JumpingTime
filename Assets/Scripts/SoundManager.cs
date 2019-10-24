@@ -71,27 +71,22 @@ public class SoundManager : MonoBehaviour
 
     //}
 
-    public void PlayBtnClick()
-    {
-       // Debug.Log("Setting audiosource");
-       // Debug.Log("hmm " + buttonClick.name);
-        // Debug.Log("hmm " + audioSound.clip.name);
-        audioSound.clip = buttonClick;
-        // audioSound.clip = buttonClick;
-       // Debug.Log("Set audiosource " + audioSound.clip.name);
-        if (audioSound.clip != null)
-        {
-            Debug.Log("PLaying bg sound");
-            PlaySound();
-        }
+    //public void PlayBtnClick()
+    //{
+    //   // Debug.Log("Setting audiosource");
+    //   // Debug.Log("hmm " + buttonClick.name);
+    //    // Debug.Log("hmm " + audioSound.clip.name);
+    //    audioSound.clip = buttonClick;
+    //    // audioSound.clip = buttonClick;
+    //   // Debug.Log("Set audiosource " + audioSound.clip.name);
+    //    if (audioSound.clip != null)
+    //    {
+    //        Debug.Log("PLaying bg sound");
+    //        PlaySound();
+    //    }
 
-    }
+    //}
 
-    public void PlayPowerEffect()
-    {
-        //clickSource.clip = powerClick;
-        PlaySound();
-    }
 
     public void PlayBackground( AudioClip bgSound)
     {
