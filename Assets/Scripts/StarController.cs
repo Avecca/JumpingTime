@@ -6,7 +6,7 @@ public class StarController : MonoBehaviour
 {
 
     [SerializeField]
-    private GameManager gameManager;
+   // private GameManager gameManager; //*
     private string starType;
 
 
@@ -26,13 +26,13 @@ public class StarController : MonoBehaviour
             if (starType.Equals("WinningStar"))
             {
                 Debug.Log("WINNING STAR!");
-                gameManager.StarPassed();
-                gameManager.LevelOverMenu("Winning Level!");
+                GameManager.Instance.StarPassed();
+                GameManager.Instance.LevelOverMenu("Winning Level!");
             }
             else if(starType.Equals("PassingStar"))
             {
                 Debug.Log("STAR!");
-                gameManager.StarPassed();
+                GameManager.Instance.StarPassed();
                 //only trigger once
                 gameObject.SetActive(false);
 

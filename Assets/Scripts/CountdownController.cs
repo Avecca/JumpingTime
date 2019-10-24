@@ -18,8 +18,8 @@ public class CountdownController : MonoBehaviour
     public TextMeshProUGUI text;
 
 
-
-    GameManager gameManager;
+    // TODO *
+   // GameManager gameManager;
 
     private bool countingDown = false;
 
@@ -29,7 +29,8 @@ public class CountdownController : MonoBehaviour
     {
         //text = GetComponent<TextMeshProUGUI>();
 
-        gameManager = GetComponent<GameManager>();
+        // TODO *
+        // gameManager = GetComponent<GameManager>();
         Time.timeScale = 1;
     }
 
@@ -66,13 +67,15 @@ public class CountdownController : MonoBehaviour
 
             if (timeTillStart < 0)
             {
-                //Debug.Log("MINDRE ÄN 0");
+                Debug.Log("MINDRE ÄN 0");
                 countingDown = false;
                 //gameObject.SetActive(false);
 
                 text.gameObject.SetActive(false); // .enabled = false;
                 //TODO WHEN SINGLETON
-                gameManager.StartGameTimer();
+                // TODO *
+                //gameManager.StartGameTimer();
+                GameManager.Instance.StartGameTimer();
                 
             }
         }

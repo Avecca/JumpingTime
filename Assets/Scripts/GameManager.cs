@@ -9,29 +9,28 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
 
+    private static GameManager _instance;
 
-    //private static GameManager _instance;
+    //singleton
+    public static GameManager Instance
+    {
+        get
+        {
 
-    ////singleton
-    //public static GameManager Instance
-    //{
-    //    get
-    //    {
-
-    //        if (_instance == null)
-    //        {
-    //            _instance = new GameManager();
-    //        }
-    //        return _instance;
-    //    }
-    //}
-
-
-
+            if (_instance == null)
+            {
+                _instance = Instantiate(Resources.Load<GameObject>("GameManager")).GetComponent<GameManager>(); //new SoundManager();
+                Debug.Log("GameManager instantiated");
+            }
+            return _instance;
+        }
+    }
 
 
     //Under the same "item" GameManager, init i start då
+    [SerializeField]
     CountdownController countdownController;
+    [SerializeField]
     PowerUpManager powerUpManager;
 
     //seperate entitys, connect through inspector
@@ -39,14 +38,14 @@ public class GameManager : MonoBehaviour
 
     public TimerController timerController;
     //todo to stop movement stopMovement in StopMovement(true);
-    public MovementController playerMovementController;  
+    public MovementController playerMovementController;
     //public CountdownController countdownController;
 
     private int showHurryMax = 8;
     private int showHurryMin = 5;
     // private int startCountDown = 5; in timercontroller
     public int powerLastingTimer = 10;
-   // private float difficultyTimeCorrector = 0;
+    // private float difficultyTimeCorrector = 0;
     private float jumpSpeedOrigional;
     private bool gameIsRunning = true;
 
@@ -66,13 +65,30 @@ public class GameManager : MonoBehaviour
     private GameObject nextButton;
 
 
+
+
+
     //public TextMeshProUGUI timeTextController;
+
+
+    private void Awake()
+    {
+        if (_instance != null && _instance != this) 
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-
-        StartSequence();
+            //TODO *
+       // StartSequence();
 
         //Singleton
         //SoundManager.Instance.PlayBackground();
@@ -88,26 +104,54 @@ public class GameManager : MonoBehaviour
     //TODOLevel manager som har koll på alla stats för närvarande nivån, powers, timer osv?
     //  == Scenemanagement
 
+
+        //TODO doing this backwards - scripts should fetch from gamemanager not the other way around
     private void StartSequence()
     {
+        Debug.Log("STARTSEQUENCE");
+        gameIsRunning = false;
 
         //TODO sätt olika timers per bana
         //currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        countdownController = GetComponent<CountdownController>();
-        powerUpManager = GetComponent<PowerUpManager>();
+
+
+        //Find all the objects/scripts that gamenanager uses
+        playerMovementController = GameObject.FindGameObjectWithTag("Player").GetComponent<MovementController>();
+        timerController = GameObject.Find("Canvas/Timer").GetComponent<TimerController>();
+        // TODO *
+        countdownController = GameObject.Find("SceneManagement").GetComponent<CountdownController>(); //GetComponent<CountdownController>();
+        // TODO *
+        powerUpManager = GameObject.Find("SceneManagement").GetComponent<PowerUpManager>(); //GetComponent<PowerUpManager>();
+        countdown = GameObject.Find("Canvas/Countdown");
+
+        hurry = GameObject.Find("Canvas/Hurry");
+        levelOverMenu = GameObject.Find("Canvas/LevelOverMenu");
+        optionMenu = GameObject.Find("Canvas/OptionsMenu");
+
+        hideNonStartObjects();
+
         jumpSpeedOrigional = playerMovementController.GetJumpSpeed();
         starsCaught = 0;
 
 
+
+
         //TODO IF STartScene
 
-        gameIsRunning = false;
+       
         //Countdown till start
         playerMovementController.StopAllMovement(true);
         countdownController.StartCountDown();
 
         //TODO if startscene preload first
 
+    }
+
+    private void hideNonStartObjects()
+    {
+        hurry.SetActive(false);
+        levelOverMenu.SetActive(false);
+        optionMenu.SetActive(false);
     }
 
     public void NewLevelSceneStart()
@@ -126,7 +170,12 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                hurry.gameObject.SetActive(false);
+                if (hurry.gameObject.activeSelf)
+                {
+                    hurry.gameObject.SetActive(false);
+
+                }
+                
             }
 
 

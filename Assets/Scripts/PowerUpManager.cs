@@ -18,7 +18,8 @@ public class PowerUpManager : MonoBehaviour
 
     //[SerializeField]
     private GameObject powerUp;
-    GameManager gameManager;
+    //*
+    //GameManager gameManager;
 
     [SerializeField]
     private List<GameObject> boosters = new List<GameObject>();
@@ -47,8 +48,8 @@ public class PowerUpManager : MonoBehaviour
         {
             return;
         }
-
-        gameManager = GetComponent<GameManager>();
+        //*
+        //gameManager = GetComponent<GameManager>();
 
         random = new System.Random();
 
@@ -137,29 +138,29 @@ public class PowerUpManager : MonoBehaviour
 
     public void UsePowerup(String power)
     {
-
+      
         switch (power)
         {
             case "xTime5":
-                gameManager.AdjustGameTime(5);
+                GameManager.Instance.AdjustGameTime(5);
                     break;
             case "xTime-5":
-                gameManager.AdjustGameTime(-5);
+                GameManager.Instance.AdjustGameTime(-5);
                 break;
             case "xJump5":
-                gameManager.AdjustJumpSpeed(900);  //600 is normal
+                GameManager.Instance.AdjustJumpSpeed(900);  //600 is normal
                 break;
             case "xJump-5":
-                gameManager.AdjustJumpSpeed(450);
+                GameManager.Instance.AdjustJumpSpeed(450);
                 break;
             case "xSpeed5":
-                gameManager.AdjustGameSpeed(1.5f);
+                GameManager.Instance.AdjustGameSpeed(1.5f);
                 break;
             case "xSpeed-5":
-                gameManager.AdjustGameSpeed(0.7f);
+                GameManager.Instance.AdjustGameSpeed(0.7f);
                 break;
             case "xDoubleJump":
-                gameManager.AllowDoubleJump();
+                GameManager.Instance.AllowDoubleJump();
                 break;
             default:
 

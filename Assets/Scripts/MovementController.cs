@@ -21,8 +21,9 @@ public class MovementController : MonoBehaviour
     [SerializeField]
     float movementDir;
 
-    [SerializeField]
-    private GameManager gameManager;
+    //*
+    //[SerializeField]
+    //private GameManager gameManager; 
 
     [SerializeField]
     private bool doubleJumpActive = false;

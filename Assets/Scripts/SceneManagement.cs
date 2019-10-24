@@ -36,7 +36,7 @@ public class SceneManagement : MonoBehaviour
         else
         {
             //TODO WHEN SINGLETON GAMEMANAGER
-            //GameManager.Instance.NewLevelSceneStart();
+            GameManager.Instance.NewLevelSceneStart();
         }
 
        
