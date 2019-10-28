@@ -7,14 +7,9 @@ using UnityEngine.EventSystems;
 public class PowerController : MonoBehaviour, IPointerDownHandler
 {
 
-
+    //create a random powerup
     //Add to PowerUpManagers boosters list to add the  booster to a scene
 
-    //public GameObject powerUp;  // +
-   // public GameObject powerDown;  //-
-
-
-        //TODO värdelöst om gravity
     [SerializeField]
     private float speed = 10f;
 
@@ -38,51 +33,31 @@ public class PowerController : MonoBehaviour, IPointerDownHandler
     //type of booster/power, if clicked
     String powerType;
 
-
     //Sizes to decide destroy point of booster
     private RectTransform rectT;
     private Vector3[] corners;
     private float recHeight;
     private float boostHeight;
 
-    //private float heightDiff = 1.6f;  //1.6 is the height of the buttons and than some
-    //private Vector3 pos1;  //current
-    //private Vector3 pos2;
-
-    
-
     [SerializeField]  //the powerups referense to the manager
     public PowerUpManager powerUpManager;
 
     private void Start()
     {
-        //TODO random left right
-
-
-        // position =
         StartPower();
-
-        //Rigidbody2D r = gameObject.GetComponentInChildren<Rigidbody2D>();
-        //Debug.Log("Gravity " + r.gravityScale);
-       // r.gravityScale = 0.1f;
-
     }
-
-
 
     private void Update()
     {
         MovePower();
-
-        ///TODO IF hit
-        ///IF Bottom
     }
 
     private void StartPower()
     {
+        //add to left or right panel
         random = new System.Random();
         spawnPoint =  random.Next(0, nrSpawnPoints);  //2 spawnpoints
-        Debug.Log("Flyttar till hörn");
+        //Debug.Log("Flyttar till hörn");
 
         //Point of no touching between booster and direction buttons, boostheight/2 + recHeight
         //half the size ogf the booster
@@ -90,37 +65,24 @@ public class PowerController : MonoBehaviour, IPointerDownHandler
 
         powerType = gameObject.tag;
 
-        if (spawnPoint > 0)
+        //right panel
+        if (spawnPoint > 0)  
         {
             transform.position = rightSpawnPos.transform.position;  //parent
         }
-        else
+        else  
         {
+            //left panel
             transform.position = leftSpawnPos.transform.position;
-
         }
-        
 
-        //transform.Translate(Vector3.down * speed * Time.deltaTime, Space.Self);  //Self.World
     }
 
-
-    //TODO TEMP REMOVE
    // bool moving = true;
     private void MovePower()
     {
-        // transform.localPosition = Vector3.MoveTowards(transform.localPosition, leftBtn.localPosition, speed * Time.deltaTime);
 
-        //transform .position = new Vector3(leftSpawnPos.position.x, transform.position.y - speed * Time.deltaTime, transform.position.z);
-
-        //transform.position = new Vector3(Mathf.Clamp(transform.position.x, leftSpawnPos.position.x, leftSpawnPos.transform.x), transform.position.y * speed * Time.deltaTime, transform.position.z);
-
-        //if (moving)
-        //{
-
-        //if (position.y > leftSpawnPos.position.y)
-        //{
-
+        //depending on spawnpoints, move to corresponding endpoint, withough changing the x position according to the screen edge
         if (spawnPoint > 0)
         {
             position = new Vector3(rightSpawnPos.position.x, transform.position.y - speed * Time.deltaTime, transform.position.z);
@@ -134,72 +96,21 @@ public class PowerController : MonoBehaviour, IPointerDownHandler
             //transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime * speed);
         }
 
+        //smoother transform
         transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime * speed);
 
-
+        //find out the dimensions of the powerup(boostheight) and the movement buttons 
         corners = new Vector3[4];
         rectT.GetWorldCorners(corners);
 
         recHeight = (corners[2].y - corners[0].y);
 
-
-        //float height = rectT.GetWorldCorners(); //rectT.rect.height / 2 ;
-        // float height2 = corners2[2].y - corners2[0].y;
-
-        //Debug.Log(height + " HEIGHT * 2");
-
-
        // Debug.Log(recHeight + " hmm " + boostHeight);
+       //if the y position reaches the movement buttons
         if (transform.position.y < (leftMoveBtn.position.y + (recHeight + boostHeight)) || transform.position.y < (rightMoveBtn.position.y + (recHeight + boostHeight))) //leftBtn.position.y
             DestroyPower();
 
-        //    }
-        //    else
-        //    {
-
-        //        if (powerUpManager != null)
-        //        {
-        //            Debug.Log("DESTOYINGS!");
-        //            moving = false;
-        //            DestroyPower();
-        //        }
-
-        //    }
-        //}
-
     }
-
-
-
-
-
-    //TODO TA BORT
-    public void SpawnPower()
-    {
-
-
-
-        Debug.Log("Spawning!");
-        //spawnposition = powerPos.position
-
-
-       // position = leftSpawnPos.transform.position;//leftSpawnPos.localPosition;
-
-      // GameObject power =  Instantiate(powerUp, position , Quaternion.identity);  //leftSpawnPos.transform.position
-
-
-       // power.transform.position = Vector3.MoveTowards(leftSpawnPos.localPosition, leftBtn.localPosition, speed * Time.deltaTime);
-
-        //TODO in inspector instead
-        //power.transform.Translate(Vector3.down * speed * Time.deltaTime, Space.World);
-
-
-       // power.transform.Translate(Vector3.down * speed * Time.deltaTime, Space.World );
-
-        //TODO kill gameObject
-    }
-
-
 
     private void DestroyPower()
     {  //TODO inte förstöra parhent
@@ -207,19 +118,73 @@ public class PowerController : MonoBehaviour, IPointerDownHandler
         powerUpManager.DestroyPowerup(gameObject);
     }
 
+    //if the powerup is clicked
     public void OnPointerDown(PointerEventData eventData)
     {
-        
         if (powerType != null)
         {
-
-            //TODO SOUND
-            Debug.Log("Pressed!!!!!!! " + powerType);
+           // Debug.Log("Pressed!!!!!!! " + powerType);
             SoundManager.Instance.PlayEffect(clickSound);
             powerUpManager.UsePowerup(powerType);
             DestroyPower();
 
-        }
-        
+        } 
     }
 }
+
+
+#region unused code
+
+//transform.Translate(Vector3.down * speed * Time.deltaTime, Space.Self);  //Self.World
+
+
+//if gravity used on powerups
+//Rigidbody2D r = gameObject.GetComponentInChildren<Rigidbody2D>();
+//Debug.Log("Gravity " + r.gravityScale);
+// r.gravityScale = 0.1f;
+//public void SpawnPower()
+//{
+
+
+// transform.localPosition = Vector3.MoveTowards(transform.localPosition, leftBtn.localPosition, speed * Time.deltaTime);
+
+//transform .position = new Vector3(leftSpawnPos.position.x, transform.position.y - speed * Time.deltaTime, transform.position.z);
+
+//transform.position = new Vector3(Mathf.Clamp(transform.position.x, leftSpawnPos.position.x, leftSpawnPos.transform.x), transform.position.y * speed * Time.deltaTime, transform.position.z);
+
+//if (moving)
+//{
+
+//if (position.y > leftSpawnPos.position.y)
+//{
+
+
+
+
+//float height = rectT.GetWorldCorners(); //rectT.rect.height / 2 ;
+// float height2 = corners2[2].y - corners2[0].y;
+
+//Debug.Log(height + " HEIGHT * 2");
+
+
+
+//    Debug.Log("Spawning!");
+//    //spawnposition = powerPos.position
+
+
+//    // position = leftSpawnPos.transform.position;//leftSpawnPos.localPosition;
+
+//    // GameObject power =  Instantiate(powerUp, position , Quaternion.identity);  //leftSpawnPos.transform.position
+
+
+//    // power.transform.position = Vector3.MoveTowards(leftSpawnPos.localPosition, leftBtn.localPosition, speed * Time.deltaTime);
+
+//    //TODO in inspector instead
+//    //power.transform.Translate(Vector3.down * speed * Time.deltaTime, Space.World);
+
+
+//    // power.transform.Translate(Vector3.down * speed * Time.deltaTime, Space.World );
+
+//    //TODO kill gameObject
+//}
+#endregion

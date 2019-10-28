@@ -5,6 +5,7 @@ using UnityEngine;
 public class MoveObjectOnCollision : MonoBehaviour
 {
 
+    //Script for making an object start moving when a player lands on top
 
     //add platform effector 2d
     [SerializeField]

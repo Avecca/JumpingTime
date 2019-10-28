@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FluidBackgroundManager : MonoBehaviour
 {
-
+    //Make the background and sides of the game board be infinite
     [SerializeField]
     private Transform centerBG;
     [SerializeField]
@@ -19,31 +19,26 @@ public class FluidBackgroundManager : MonoBehaviour
 
     private void Start()
     {
+        //The diffrences between the center diffrent panels and the upper/lower panels which make up the BG
         bgDiff = (centerBG.GetChild(0).position - centerBG.position).y;
         barrierDiffLeft = (centerLeftBarrier.GetChild(0).position - centerLeftBarrier.position).y;
         barrierDiffRight = (centerRightBarrier.GetChild(0).position - centerRightBarrier.position).y;
 
     }
 
-
-    // Update is called once per frame
     void Update()
     {
-        //TODO Ta ut 16 från background uppers, y istället
-
         //background
         Reposition(centerBG, bgDiff);
         //leftSide
         Reposition(centerLeftBarrier, barrierDiffLeft);
         //rightside
-        Reposition(centerRightBarrier, barrierDiffRight);  //TODO X ska ändras istället 2.49
-
-
+        Reposition(centerRightBarrier, barrierDiffRight);  
     }
 
     private void Reposition(Transform image, float diff)
     {
-
+        //moving up or down
         if (transform.position.y >= image.position.y + diff)
         {
             image.position = new Vector2(image.position.x, transform.position.y + diff);

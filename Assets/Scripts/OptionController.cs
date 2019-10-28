@@ -8,27 +8,23 @@ using UnityEngine.SceneManagement;
 public class OptionController : MonoBehaviour
 {
 
+    //Game options including sound, restart, quit
+
     public GameObject levelMenu, optionMenu;
     [SerializeField]
     private AudioClip click;
-
     private int currentSceneNr;
     private GameObject gObj;
+  
 
-        //TODO ACTIVATE SCENES
-
-        
-
-        
-
-    //Level Over Choices
+    //Level Over Choices, called when a level/scene is done playing
     public void CheckNextScene()
     {
         currentSceneNr = SceneManager.GetActiveScene().buildIndex;
         //Debug.Log("STartNextLevel " + (currentSceneNr + 1));
+        //if next level doesnt exist
         if (!Application.CanStreamedLevelBeLoaded(currentSceneNr + 1))
         {
-            
             gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Game Ended";
             gObj = GameObject.Find("OptionButtons/Next");
             if (gObj != null)
@@ -39,12 +35,11 @@ public class OptionController : MonoBehaviour
 
     }
 
-
     public void RestartScene()
     {
-        Debug.Log("RESTART SCENE");
+       // Debug.Log("RESTART SCENE");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        //timescale
+        //timescale - done in sceneManagement
     }
 
 
@@ -58,37 +53,6 @@ public class OptionController : MonoBehaviour
     {
         //TODO GameManager.Instance
     }
-
-
-    //OptionChoices, Can do in Inspector
-    //public void ShowOptionMenu()
-    //{
-    //    Debug.Log("Show menu!");
-
-    //    if (SceneManager.GetActiveScene().buildIndex > 0)
-    //    {
-    //        levelMenu.SetActive(false);
-    //    }
-
-    //    //levelOverMenu.SetActive(false);
-    //    optionMenu.SetActive(true);
-
-    //    //TODO
-    //    //QUIT
-    //    //STARTFROM GAmeMenu
-    //    //No sound
-    //}
-
-    //public void CloseOptionWindow()
-    //{
-    //    if (SceneManager.GetActiveScene().buildIndex > 0)
-    //    {
-    //        levelMenu.SetActive(true);
-    //    }
-
-    //    optionMenu.SetActive(false);
-
-    //}
 
     public void QuitGame()
     {
@@ -108,5 +72,36 @@ public class OptionController : MonoBehaviour
         Debug.Log("Difficulty changed");
     }
 
-
 }
+
+#region unused code
+//OptionChoices, Can do in Inspector
+//public void ShowOptionMenu()
+//{
+//    Debug.Log("Show menu!");
+
+//    if (SceneManager.GetActiveScene().buildIndex > 0)
+//    {
+//        levelMenu.SetActive(false);
+//    }
+
+//    //levelOverMenu.SetActive(false);
+//    optionMenu.SetActive(true);
+
+//    //TODO
+//    //QUIT
+//    //STARTFROM GAmeMenu
+//    //No sound
+//}
+
+//public void CloseOptionWindow()
+//{
+//    if (SceneManager.GetActiveScene().buildIndex > 0)
+//    {
+//        levelMenu.SetActive(true);
+//    }
+
+//    optionMenu.SetActive(false);
+
+//}
+#endregion

@@ -7,18 +7,14 @@ using UnityEngine.SceneManagement;
 public class SceneManagement : MonoBehaviour
 {
     //Must exist in every scene, at the top
-    //TODO Scene specific data
-    //TODOLevel manager som har koll på alla stats för närvarande nivån, powers, timer osv?
-    //spawna Player?
-    //change music
-    //se till att gamemanager häner med?
+    //Scene specific data
 
     [SerializeField]
     private AudioClip backGroundSound;
 
     private int currentSceneIndex;
     AsyncOperation async;
-    // Start is called before the first frame update
+
     void Start()
     {
         currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
@@ -26,28 +22,20 @@ public class SceneManagement : MonoBehaviour
         //SoundManager.Instance.transform.position = Vector3.zero;
         //SoundManager.Instance();
 
-        PlayStartSound();
+        PlayLevelBackgroundSound();
 
         if (SceneManager.GetActiveScene().name == "Start")  //main menu, index == 0
         {
             PreLoadNextScene();
-
         }
         else
         {
-            //TODO WHEN SINGLETON GAMEMANAGER
             GameManager.Instance.NewLevelSceneStart();
         }
-
-       
-
-        //TODO this scenes changes! music, new stats in game manager osv, andra boosters
     }
 
-    private void PlayStartSound()
+    private void PlayLevelBackgroundSound()
     {
-
-        
         if (backGroundSound != null)
         {
             //Debug.Log("Sending sound to SM");
@@ -59,9 +47,10 @@ public class SceneManagement : MonoBehaviour
     public void PreLoadNextScene()
     {
 
-        Debug.Log("PreLoading next scene!!!");
+       // Debug.Log("PreLoading next scene!!!");
         currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
+        //if next scene exists
         if (Application.CanStreamedLevelBeLoaded(currentSceneIndex + 1))
         {
             async = SceneManager.LoadSceneAsync(currentSceneIndex + 1);
@@ -72,10 +61,11 @@ public class SceneManagement : MonoBehaviour
 
     public void StartNextScene()
     {
-        Debug.Log("STartNextLevel " + (currentSceneIndex + 1));
+       // Debug.Log("STartNextLevel " + (currentSceneIndex + 1));
+       //if preloaded exists
         if (async != null)
         {
-            Debug.Log("Async is present " + async);
+            //Debug.Log("Async is present " + async);
             async.allowSceneActivation = true;
         }
         else
@@ -86,9 +76,5 @@ public class SceneManagement : MonoBehaviour
             }
         }
     }
-
-
-    //SCene 2, 
-
 
 }

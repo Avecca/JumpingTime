@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class TimerController : MonoBehaviour
 {
+
+    //The time the player has to finish the level
     TextMeshProUGUI text;
 
     [SerializeField]
@@ -33,12 +35,8 @@ public class TimerController : MonoBehaviour
     {
         //text = GetComponentInChildren<Text>();
         text = GetComponent<TextMeshProUGUI>();
-
-
         Time.timeScale = 1;
        // Debug.Log(text);
-
-
     }
 
     private void Update()
@@ -66,26 +64,21 @@ public class TimerController : MonoBehaviour
         text.text = Mathf.Round(timeLeft).ToString();
     }
 
-
+    //powerups use this
     public void AdjustTime(float time)
     {
         TimeLeft = TimeLeft + time;
     }
 
-
-    //only done while not running
+    //only done while game is not running- 
     public void SetStartTimeAccordingToDifficulty(float time)
     {
         timeLeft = baseTime - time;
-
     }
-
-
 
     public void StartGame()
     {
         gameRunning = true;
-
         //TODO Ienumerator instead of updateTimer?
     }
 

@@ -6,30 +6,18 @@ using TMPro;
 public class CountdownController : MonoBehaviour
 {
 
-    //TODO WHEN SINGLETON
-
-
-
+    //Countdown before the game scene is allowd to "start"
 
     [SerializeField]
     private float timeTillStart = 5f;
     private float countDownFrom = 5f;
 
     public TextMeshProUGUI text;
-
-
-    // TODO *
-   // GameManager gameManager;
-
+  
     private bool countingDown = false;
-
-    //TextMeshProUGUI text;
-    // Start is called before the first frame update
+    // GameManager gameManager;
     void Start()
     {
-        //text = GetComponent<TextMeshProUGUI>();
-
-        // TODO *
         // gameManager = GetComponent<GameManager>();
         Time.timeScale = 1;
     }
@@ -43,11 +31,10 @@ public class CountdownController : MonoBehaviour
         }else
         {
             text.text = timeTillStart.ToString();
-        }
-            
+        }     
     }
 
-
+    //called from gamemanager
     public void StartCountDown()
     {
         //gameObject.SetActive(true);
@@ -70,11 +57,10 @@ public class CountdownController : MonoBehaviour
                 Debug.Log("MINDRE ÄN 0");
                 countingDown = false;
                 //gameObject.SetActive(false);
-
-                text.gameObject.SetActive(false); // .enabled = false;
-                //TODO WHEN SINGLETON
-                // TODO *
+                //only text is inactive
+                text.gameObject.SetActive(false); 
                 //gameManager.StartGameTimer();
+                //start rest of the game
                 GameManager.Instance.StartGameTimer();
                 
             }

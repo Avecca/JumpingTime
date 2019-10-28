@@ -8,24 +8,20 @@ using System;
 public class PowerUpManager : MonoBehaviour
 {
 
-    //seperate entitys, connect through inspector
-    // public TimerController timerController;
 
-    //public TextMeshPro timeController;
-    //public TextMeshProUGUI timeController;
+    //create and manage powerups
 
-   // public PowerController powerController;   DENNA SIST
-
-    //[SerializeField]
     private GameObject powerUp;
     //*
     //GameManager gameManager;
 
+     //powerups allowed in this scene
     [SerializeField]
     private List<GameObject> boosters = new List<GameObject>();
     int ran;
 
 
+    //For deciding When to spawn a powerup
     [SerializeField]
     private float minSpawnTimer = 5.0f, maxSpawnTimer = 12.0f;
     private float spawnTimer;
@@ -40,16 +36,11 @@ public class PowerUpManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-        // minSpawnTimer = 5.0f;
-        // maxSpawnTimer = 12.0f;
-
         if (boosters == null)
         {
             return;
         }
-        //*
-        //gameManager = GetComponent<GameManager>();
+ 
 
         random = new System.Random();
 
@@ -65,9 +56,7 @@ public class PowerUpManager : MonoBehaviour
             timeSinceSpawn += Time.deltaTime;
             if (timeSinceSpawn > spawnTimer)
             {
-
                 SpawnRandomPower();
-
             }
         }
     }
@@ -75,70 +64,54 @@ public class PowerUpManager : MonoBehaviour
     private void SpawnRandomPower()
     {
 
-
-        //TODO Allow 0,1 and 2 to spawn BOTH at the same time?
-        //if (choosenPanel > 0)
-        //{
-        //    Debug.Log("Trying to spawn right!");
-        //    rightPowerControlPanel.SpawnPower();
-        //}
-        //else
-        //{
-        //    Debug.Log("Tring to spawn Left!");
-        //    leftPowerControlPanel.SpawnPower();
-        //}
+        //TODO Allow 0,1 and 2 to spawn BOTH at the same time? 
+        //pick a random powerup type
         ran = random.Next(0, boosters.Count);
         powerUp = boosters[ran];
 
-        Debug.Log("Tring to spawn in manager!");
-        // powerController.SpawnPower();
+        //Debug.Log("Tring to spawn in manager!");
 
         GameObject power = Instantiate(powerUp);  //TODO RANDOM POWERUP GameObject.FindGameObjectWithTag("BoosterPanels").transform
+        //activiate the powerup
         power.SetActive(true);
-        //all the powers should be able to acess PowerUpManager, for updates and death
-        //PowerController pc = power.GetComponentInChildren<PowerController>();
+        //all the powers should be able to acess PowerUpManager, for updates and death   
         PowerController pc = power.GetComponent<PowerController>();
 
-        //PowerController pc = power.GetComponent<PowerController>();
+        //make the powerup remmeber  this manager
         pc.powerUpManager = this;
 
         //give it a parent in the UI, this case the panels, stops the shaking...... power.transform
         pc.transform.parent = GameObject.FindGameObjectWithTag("BoosterPanels").transform;
 
 
-
         RandomSpawnTimerAndPlace();
         timeSinceSpawn = 0;
     }
 
+
+    //Decides when  the next powerup is allowed to spawn
     private void RandomSpawnTimerAndPlace()
-    {
-
-        
+    {        
         spawnTimer = UnityEngine.Random.Range(minSpawnTimer, maxSpawnTimer);
-        //choosenPanel = random.Next(0, 2);  //0 or 1
-        //
 
-        Debug.Log("Picking random time " + spawnTimer  );  // and place  choosenPanel
+       // Debug.Log("Picking random time " + spawnTimer  );  // and place  choosenPanel
     }
 
 
     public void AllowSpawns( bool allowSpawns)
     {
-        Debug.Log("Allow spawns " + allowSpawns);
+        //Debug.Log("Allow spawns " + allowSpawns);
         SpawnsAllowed = allowSpawns;
     }
 
-
     public void DestroyPowerup(GameObject power)
     {
-        Debug.Log("Destroy Power");
+       // Debug.Log("Destroy Power");
         Destroy(power);
     }
 
     public void UsePowerup(String power)
-    {
-      
+    {      
         switch (power)
         {
             case "xTime5":
@@ -167,9 +140,22 @@ public class PowerUpManager : MonoBehaviour
                 Debug.Log("No power was found");
                 break;
         }
-
-
     }
-
-    //collider.gameObject.SetActive(false);
+  
 }
+
+
+#region unused code
+//if (choosenPanel > 0)
+//{
+//    Debug.Log("Trying to spawn right!");
+//    rightPowerControlPanel.SpawnPower();
+//}
+//else
+//{
+//    Debug.Log("Tring to spawn Left!");
+//    leftPowerControlPanel.SpawnPower();
+//}
+
+//collider.gameObject.SetActive(false);
+#endregion

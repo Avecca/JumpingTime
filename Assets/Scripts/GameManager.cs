@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-
             if (_instance == null)
             {
                 _instance = Instantiate(Resources.Load<GameObject>("GameManager")).GetComponent<GameManager>(); //new SoundManager();
@@ -27,34 +26,29 @@ public class GameManager : MonoBehaviour
     }
 
 
+    //Objects and scripts the GameManager utilizes- finds all of the in script since becoming singleton
     //Under the same "item" GameManager, init i start då
     [SerializeField]
     CountdownController countdownController;
     [SerializeField]
     PowerUpManager powerUpManager;
-
     //seperate entitys, connect through inspector
-    public GameObject hurry, levelOverMenu, optionMenu, countdown;  //todo remove countdown
-
+    public GameObject hurry, levelOverMenu, optionMenu, countdown; 
     public TimerController timerController;
     //todo to stop movement stopMovement in StopMovement(true);
     public MovementController playerMovementController;
     //public CountdownController countdownController;
 
+    [SerializeField] //enable level complete through inspector
+    private int starsCaught;
     private int showHurryMax = 8;
     private int showHurryMin = 5;
-    // private int startCountDown = 5; in timercontroller
+    //How long the powerups last
     public int powerLastingTimer = 10;
-    // private float difficultyTimeCorrector = 0;
+    //incase of changes
     private float jumpSpeedOrigional;
     private bool gameIsRunning = true;
-
-    //todo remove public
-    [SerializeField]
-    private int starsCaught;
-
     Color32 yellow = new Color32(224, 212, 35, 255);
-
 
     // private int currentSceneIndex;
     // AsyncOperation async;
@@ -63,12 +57,6 @@ public class GameManager : MonoBehaviour
     private GameObject currentSceneManagement;
     private SceneManagement currentSceneManagementScript;
     private GameObject nextButton;
-
-
-
-
-
-    //public TextMeshProUGUI timeTextController;
 
 
     private void Awake()
@@ -84,18 +72,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-            //TODO *
-       // StartSequence();
-
-        //Singleton
-        //SoundManager.Instance.PlayBackground();
-
-    }
-
-
     private void Update()
     {
         ControlGameTimer();
@@ -104,8 +80,7 @@ public class GameManager : MonoBehaviour
     //TODOLevel manager som har koll på alla stats för närvarande nivån, powers, timer osv?
     //  == Scenemanagement
 
-
-        //TODO doing this backwards - scripts should fetch from gamemanager not the other way around
+    //TODO doing this backwards - scripts should fetch from gamemanager not the other way around
     private void StartSequence()
     {
         Debug.Log("STARTSEQUENCE");
@@ -114,16 +89,14 @@ public class GameManager : MonoBehaviour
         //TODO sätt olika timers per bana
         //currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
-
         //Find all the objects/scripts that gamenanager uses
+        //scripts
         playerMovementController = GameObject.FindGameObjectWithTag("Player").GetComponent<MovementController>();
         timerController = GameObject.Find("Canvas/Timer").GetComponent<TimerController>();
-        // TODO *
         countdownController = GameObject.Find("SceneManagement").GetComponent<CountdownController>(); //GetComponent<CountdownController>();
-        // TODO *
         powerUpManager = GameObject.Find("SceneManagement").GetComponent<PowerUpManager>(); //GetComponent<PowerUpManager>();
+        //objects
         countdown = GameObject.Find("Canvas/Countdown");
-
         hurry = GameObject.Find("Canvas/Hurry");
         levelOverMenu = GameObject.Find("Canvas/LevelOverMenu");
         optionMenu = GameObject.Find("Canvas/OptionsMenu");
@@ -133,17 +106,9 @@ public class GameManager : MonoBehaviour
         jumpSpeedOrigional = playerMovementController.GetJumpSpeed();
         starsCaught = 0;
 
-
-
-
-        //TODO IF STartScene
-
-       
         //Countdown till start
         playerMovementController.StopAllMovement(true);
         countdownController.StartCountDown();
-
-        //TODO if startscene preload first
 
     }
 
@@ -173,17 +138,12 @@ public class GameManager : MonoBehaviour
                 if (hurry.gameObject.activeSelf)
                 {
                     hurry.gameObject.SetActive(false);
-
                 }
-                
             }
-
 
             if (timerController.TimeLeft <= 0)
             {
-
-                Debug.Log("Times up!");
-
+               // Debug.Log("Times up!");
                 if (starsCaught > 0)
                 {
                     LevelOverMenu("Level Success");
@@ -192,7 +152,6 @@ public class GameManager : MonoBehaviour
                 {
                     LevelOverMenu("Level Over");
                 }
-
             }
         }
     }
@@ -204,7 +163,6 @@ public class GameManager : MonoBehaviour
 
     public void LevelOverMenu(string msg)
     {
-
         //Stop char/everything from moving
         Time.timeScale = 0;
         
@@ -222,7 +180,6 @@ public class GameManager : MonoBehaviour
             {
                 nextButton.SetActive(false);
             }
-
         }
 
         //stop spawning powerups
@@ -232,15 +189,7 @@ public class GameManager : MonoBehaviour
         //Only happen once
         gameIsRunning = false;
 
-
-
-        //TODO PreLOAD next Scene
-
-        
         PreLoadNextScene();
-
-
-
     }
 
     private void PreLoadNextScene()
@@ -263,8 +212,6 @@ public class GameManager : MonoBehaviour
             currentSceneManagementScript.PreLoadNextScene();
         }
     }
-
-
 
     private void colorStars()
     {
@@ -291,7 +238,7 @@ public class GameManager : MonoBehaviour
     {
         //TODO gameIsrnning = true
         gameIsRunning = true;
-        Debug.Log("Trying to start game timer");
+        //Debug.Log("Trying to start game timer");
         playerMovementController.StopAllMovement(false);
         timerController.StartGame();
         powerUpManager.AllowSpawns(true);
@@ -300,38 +247,42 @@ public class GameManager : MonoBehaviour
 
     public void AdjustGameTime(float time)
     {
-        Debug.Log("AdjutGameTime " + time);
-        //todo  if(gameRunning)
-        timerController.AdjustTime(time);
+        // Debug.Log("AdjutGameTime " + time);
+
+        if (gameIsRunning)
+        {
+            timerController.AdjustTime(time);
+        }
     }
     
-
     public void AdjustJumpSpeed(float speed)
     {
-
-        Debug.Log("JumpSpeed " + speed);
-       StartCoroutine(ChangeJumpSpeed(speed));
+        // Debug.Log("JumpSpeed " + speed);
+        if (gameIsRunning)
+        {
+            StartCoroutine(ChangeJumpSpeed(speed));
+        }
     }
 
     IEnumerator ChangeJumpSpeed(float speed)
     {
+        if (gameIsRunning)
+        {
+            playerMovementController.ChangeJumpSpeed(speed);
 
-        playerMovementController.ChangeJumpSpeed(speed);
-
-        yield return new WaitForSeconds(powerLastingTimer);
-
-        //Taken at Start
-        playerMovementController.ChangeJumpSpeed(jumpSpeedOrigional);
-
-
+            yield return new WaitForSeconds(powerLastingTimer);
+            //Taken at Start
+            playerMovementController.ChangeJumpSpeed(jumpSpeedOrigional);
+        }
     }
 
     public void AdjustGameSpeed(float speed)
     {
-        Debug.Log("GameSpeed " + speed);
-
-        StartCoroutine(ChangeGameSpeed(speed));
-
+        // Debug.Log("GameSpeed " + speed);
+        if (gameIsRunning)
+        {
+            StartCoroutine(ChangeGameSpeed(speed));
+        }
     }
 
     IEnumerator ChangeGameSpeed(float speed)
@@ -344,13 +295,20 @@ public class GameManager : MonoBehaviour
 
     public void AllowDoubleJump()
     {
-        Debug.Log("Allow DoubleJump");
+       // Debug.Log("Allow DoubleJump");
         //allow doublejump if not already active
-        if (!playerMovementController.GetDoubleJumpActive())
+        if (!playerMovementController.GetDoubleJumpActive() && gameIsRunning)
         {
             StartCoroutine(DoubleJump());
-        }
-        
+        } 
+    }
+
+    IEnumerator DoubleJump()
+    {
+        playerMovementController.DoubleJumpActive(true);
+
+        yield return new WaitForSeconds(powerLastingTimer);
+        playerMovementController.DoubleJumpActive(false);
     }
 
     //TODO not called yet, only doable while gameiSrunning
@@ -364,13 +322,20 @@ public class GameManager : MonoBehaviour
     }
 
 
-    IEnumerator DoubleJump()
-    {
-        playerMovementController.DoubleJumpActive(true);
+    #region extra code not used
 
-        yield return new WaitForSeconds(powerLastingTimer);
-        playerMovementController.DoubleJumpActive(false);
-    }
+  
+
+    // Start is called before the first frame update
+    //void Start()
+    //{
+    //    //TODO *
+    //    // StartSequence();
+
+    //    //Singleton
+    //    //SoundManager.Instance.PlayBackground();
+
+    //}
 
     //public void StartNextScene()
     //{
@@ -432,3 +397,5 @@ public class GameManager : MonoBehaviour
  * Time.Timescale  1f;
  * 
  */
+
+#endregion

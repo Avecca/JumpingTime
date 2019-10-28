@@ -7,21 +7,11 @@ using UnityStandardAssets.CrossPlatformInput;  //for buttons
 public class MovementController : MonoBehaviour
 {
 
-
-
-//TODO SINGLETON? används i game manager
-
-
-
     private Vector2 startTouchPos;
     private Vector2 endTouchPos;
-
     private Rigidbody2D rb;
-    //private Vector3 movement;
     [SerializeField]
     float movementDir;
-
-    //*
     //[SerializeField]
     //private GameManager gameManager; 
 
@@ -29,73 +19,56 @@ public class MovementController : MonoBehaviour
     private bool doubleJumpActive = false;
     private int jumped;
     private bool jumpPossible = false;
-    private float swipeNeededToJump = 0.15f; //20% avskärmen
+    private float swipeNeededToJump = 0.15f; //15% of the screen
     private float jumpDir;
     private bool facingRight = true;
-    Vector3 localScale;  //vilket håll dino är
+    Vector3 localScale;  //vDino facing direction
 
-    //TODO hide from inspector
+    //Able to change in inspector
     [SerializeField]
     private float jumpSpeed = 620f;
     [SerializeField]
-    private float moveSpeed = 6f;   //force?
-
-    float origGravity;
-
+    private float moveSpeed = 6f;
 
     private bool stopAllMovement = false;
-
+    //see in inspector if jumping
     public bool AIR;
 
-
-
-
-
-    // Start is called before the first frame update
     void Start()
     {
         localScale = transform.localScale;
         rb = GetComponent<Rigidbody2D>();
         jumped = 0;
-        origGravity = rb.gravityScale;
     }
 
-    // Update is called once per frame
     void Update()
     {
-
-        //TODO, unless game over
         if (!stopAllMovement)
         {
             WalkCheck();
             JumpCheck();
         }
-
         // Debug.Log(dirX);
     }
 
     //physics update, things using rigidbody should go here
     private void FixedUpdate()  
     {
-
         //TODOunless game over
         if (!stopAllMovement)
         {
             TryToWalk();
             TryToJump();
             AIR = onGroundCheck;
-
         }
-
     }
 
     private void LateUpdate()
     {
         if (!stopAllMovement)
-        {
+        { //face the dino in the correct dierction
             CheckLookingDir();
         }
-        
     }
 
     private void CheckLookingDir()
@@ -122,9 +95,7 @@ public class MovementController : MonoBehaviour
         {
             startTouchPos = Input.GetTouch(0).position;
             jumpDir = CrossPlatformInputManager.VirtualAxisReference("Horizontal").GetValue;
-
            // Debug.Log("JUmp try started with jump dir " + jumpDir);
-
         }
 
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
@@ -132,26 +103,14 @@ public class MovementController : MonoBehaviour
             endTouchPos = Input.GetTouch(0).position;
 
            // Debug.Log("JUmp try ended");
-
-
-            //TODO dubbelhopp? rb.velocity ändras för tillåtelse, sen insta ändras om efter hoppet till 0
-
-            //if dubbelhopp DoubleJumpAllowed
-            //if else
-
             Vector2 diff = startTouchPos - endTouchPos;
-            diff = new Vector2(diff.x / Screen.width, diff.y / Screen.height);  //kolla större än 20% 0.1f
+            diff = new Vector2(diff.x / Screen.width, diff.y / Screen.height); 
 
            // Debug.Log("% diff är " + diff.magnitude);
             if (endTouchPos.y > startTouchPos.y && ( onGroundCheck || doubleJumpActive ) && diff.magnitude > swipeNeededToJump)  // velocitynot already in air
             {
                 jumpPossible = true;
-               // Debug.Log("JUmp pissoble");
-
-                
-               // Debug.Log(jumpPossible);
             }
-
         }
     }
 
@@ -161,33 +120,25 @@ public class MovementController : MonoBehaviour
         movementDir = CrossPlatformInputManager.VirtualAxisReference("Horizontal").GetValue;
     }
 
-
     //not falling
     public bool onGroundCheck
     {  
         get
         {
             return Math.Abs(rb.velocity.y) <= 0;
-          
         }
     }
-
 
     private void TryToJump()
     {
         if (jumpPossible)
         {
-            //Debug.Log("JUMP!! " + rb.tag);
-            //Debug.Log("JUMP!! " + (jumpDir * jumpSpeed));
-
             //Debug.Log("JUMPED = " + jumped);
-
 
             if (onGroundCheck)
             {
                // Debug.Log("1a hoppet");
                 rb.AddForce(Vector2.up * jumpSpeed);
-                
 
                 if (doubleJumpActive)
                 {
@@ -197,10 +148,8 @@ public class MovementController : MonoBehaviour
 
             if (!onGroundCheck && jumped > 0)
             {
-
                //extra umph bcs it's hard to land 2 quickly in a row
                 rb.AddForce(Vector2.up * (jumpSpeed * 1.5f));
-
                 jumped = 0;
             }
 
@@ -209,71 +158,36 @@ public class MovementController : MonoBehaviour
     }
     private void TryToWalk()
     {
-
        // Debug.Log("Try to walk");
         rb.velocity = new Vector2(movementDir * moveSpeed, rb.velocity.y);
-
-        //walking on interactable objects
-        if (!onGroundCheck)  //TODO REMOVE if not in use
-        {
-           // gameObject.layer = 9;  //Falling
-        }
-
     }
 
-
-
-    //TODO sätta på moving Object istället? tag.Equals("PLayer")?
     //collision.collider.transform.SetParent(transform);
 
-
-        //IF Player hits a 2DCollision object
+    //IF Player hits a 2DCollision object, ie moving platform
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
-        //if (collision.gameObject.tag.Equals("WinningStar"))
-        //{
-
-        //    Debug.Log("WINNING STAR");
-        //    gameManager.StarPassed();
-        //    gameManager.LevelOverMenu("Winning Level!");
-        //} 
-
-
+        //if (collision.gameObject.tag.Equals("WinningStar")), happens StarController
 
         if (collision.gameObject.tag.Equals("movingObject"))
         {
-            Debug.Log("enter moving objectx TRY");
-
             if (transform.position.y > collision.transform.position.y + 1)  // + 1
-            {
+            {   //Make the moving Object the Players parent, so the player follows along with the moving object
                  this.transform.parent = collision.transform;
-                // gameObject.layer = 8;  //moving object
-                //jumpSpeed = collision.
-                //rb.isKinematic = true;
-               // rb.gravityScale = 0;
                 //this.transform.SetParent(collision.transform);
-                Debug.Log("enter moving object");
+               // Debug.Log("enter moving object");
             }
-
-
         }
-
     }
 
-
-
+    //Player exists a 2Dcollison Object
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.tag.Equals("movingObject"))
         {
-
-            //rb.isKinematic = false;
-           // rb.gravityScale = origGravity;
             this.transform.parent = null;
-            Debug.Log("exit moving object");
+            //Debug.Log("exit moving object");
         }
-
     }
 
     public float GetJumpSpeed()
@@ -301,28 +215,21 @@ public class MovementController : MonoBehaviour
         return doubleJumpActive;
     }
 
-
-
     public void StopAllMovement(bool stop)
     {
         this.stopAllMovement = stop;
     }
 
-
-    //  rb.AddRelativeForce(Vector3.forward * thrust);  //rockt motor
-
-
-
 }
+
+#region unused code
+
+
 
 //<a href="https://www.vecteezy.com/free-vector/green-grass">Green Grass Vectors by Vecteezy</a>
 //<a href = "https://www.vecteezy.com/free-vector/green-grass" > Green Grass Vectors by Vecteezy</a>
 
-
-
-
-
-
+//  rb.AddRelativeForce(Vector3.forward * thrust);  //rockt motor
 
 ////TODO titta rad 122, velocity
 // if (!doubleJumpActive || jumped > 1)
@@ -366,3 +273,5 @@ public class MovementController : MonoBehaviour
 //speedbost
 //rb.AddForce(transform.forward * jumpSpeed, ForceMode2D.Impulse);
 //rb.AddForce(Vector2.right * jumpSpeed);
+
+#endregion
